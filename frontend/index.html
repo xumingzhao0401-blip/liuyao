@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>六爻象数营造与典籍引证系统</title>
-    <link rel="stylesheet" href="/static/css/style.css?v=1790246461">
+    <link rel="stylesheet" href="/static/css/style.css?v=1790252664">
     <!-- 本地引入 Three.js 核心与轨道控制器 -->
     <script src="js/libs/three.min.js"></script>
     <script src="js/libs/OrbitControls.js"></script>
@@ -31,7 +31,7 @@
                 <button id="btn-show-glossary" class="btn btn-outline">📖 专有名词白话典</button>
                 <button id="btn-show-prompt" class="btn btn-outline">📜 专业Prompt</button>
                 <button id="btn-open-settings" class="btn btn-outline">⚙️ 模型与API</button>
-                <button id="btn-show-classics" class="btn btn-outline">十大典籍档案</button>
+                <button id="btn-show-classics" class="btn btn-outline" onclick="window.showClassicsModal()">十大典籍档案</button>
             </div>
         </header>
 
@@ -293,7 +293,7 @@
 
     <!-- 核心逻辑脚本 -->
     <script src="/static/js/scene3d.js?v=1790252350"></script>
-    <script src="/static/js/app.js?v=1790252350"></script>
+    <script src="/static/js/app.js?v=1790252664"></script>
 
     <!-- 3D 构件点击二级滑动抽屉 -->
     <div id="drawer-3d-detail" class="drawer-panel" style="display: none;">
