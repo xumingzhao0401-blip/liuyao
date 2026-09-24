@@ -769,3 +769,70 @@ body {
     border: 1px solid #3d352b !important;
     box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.8) !important;
 }
+
+/* 确保页面主体与卡片不遮挡背景水墨山峦 */
+html, body {
+    background: transparent !important;
+}
+
+.container, .main-layout {
+    position: relative;
+    z-index: 10;
+}
+
+.card, .sidebar, .panel {
+    background: rgba(254, 252, 248, 0.78) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(215, 198, 175, 0.65) !important;
+}
+
+
+/* 《千里江山图》全屏高清青绿山水背景 (SVG 矢量无损源) */
+.landscape-bg-art {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background: 
+        linear-gradient(to bottom, rgba(248, 244, 235, 0.45) 0%, rgba(248, 244, 235, 0.2) 40%, rgba(248, 244, 235, 0.7) 100%),
+        url('/static/assets/landscape_bg.svg') no-repeat center bottom / cover !important;
+    opacity: 0.95;
+}
+
+/* 顶部标题与框架导航按钮加固：彻底消除发灰发虚 */
+.header h1, .app-title, .title {
+    color: #1f150b !important;
+    font-weight: 800 !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9) !important;
+    opacity: 1 !important;
+}
+
+.nav-btn, .header .btn, .btn-secondary, .btn-outline, button {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+.nav-btn, .header .btn {
+    background: #ffffff !important;
+    color: #2b1d0c !important;
+    border: 1.5px solid #8f6527 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 5px rgba(50, 35, 20, 0.15) !important;
+}
+
+.nav-btn:hover, .header .btn:hover {
+    background: #fdf5e8 !important;
+    color: #8c3510 !important;
+    border-color: #8c3510 !important;
+}
+
+/* 保证卡片有足够底色不被背景图反噬 */
+.card, .sidebar, .panel {
+    background: rgba(255, 253, 249, 0.94) !important;
+    border: 1.5px solid #cbb69b !important;
+    box-shadow: 0 8px 24px rgba(40, 25, 10, 0.07) !important;
+}
