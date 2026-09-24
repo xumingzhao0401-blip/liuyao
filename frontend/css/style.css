@@ -1081,3 +1081,88 @@ button.btn-outline:hover {
     color: #b32d18 !important;
     text-shadow: 0 0 1px rgba(179, 45, 24, 0.4);
 }
+
+/* ================= 强制重塑 2D 木块为金镶玉月梁 ================= */
+
+/* 1. 基础木块重置：黑檀木外框 + 羊脂白玉内芯 */
+.wood-block,
+.col-wood .wood-block,
+.col-wood .wood-solid,
+.col-wood .wood-part {
+    height: 16px !important;
+    background: #faf6ed !important; /* 羊脂白玉色 */
+    border: 2px solid #2d2015 !important; /* 黑檀深木框 */
+    border-radius: 3px !important;
+    box-sizing: border-box !important;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.9), inset 0 -1px 2px rgba(180,160,130,0.35), 0 2px 5px rgba(35,20,10,0.2) !important;
+    position: relative !important;
+}
+
+/* 2. 阳爻（整梁）：加长居中，两端加设泥金抱箍 */
+.wood-solid,
+.col-wood .wood-solid {
+    width: 140px !important;
+}
+
+.wood-solid::before,
+.wood-solid::after {
+    content: "" !important;
+    position: absolute !important;
+    top: -2px !important;
+    bottom: -2px !important;
+    width: 6px !important;
+    background: linear-gradient(180deg, #f0d58e 0%, #b88d3b 100%) !important;
+    border: 1px solid #735118 !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+}
+.wood-solid::before { left: 8px !important; }
+.wood-solid::after { right: 8px !important; }
+
+/* 3. 阴爻（断梁容器与两段断玉） */
+.wood-split-wrap {
+    width: 140px !important;
+    height: 16px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.wood-part,
+.col-wood .wood-part {
+    width: 60px !important;
+}
+
+/* 阴爻断面金榫暗扣 */
+.wood-part::after {
+    content: "" !important;
+    position: absolute !important;
+    top: -2px !important;
+    bottom: -2px !important;
+    width: 5px !important;
+    background: linear-gradient(180deg, #f0d58e 0%, #b88d3b 100%) !important;
+    border: 1px solid #735118 !important;
+}
+.wood-split-wrap .wood-part:first-child::after { right: 4px !important; }
+.wood-split-wrap .wood-part:last-child::after { left: 4px !important; }
+
+/* 4. 动爻（老阳 9 / 老阴 6）：朱砂血玉内芯 + 赤红檀木框 + 微红光晕 */
+.anim-split,
+.anim-merge,
+.yao-row:has(.col-mark:not(:empty)) .wood-block,
+.col-mark:not(:empty) ~ .col-wood .wood-block,
+.col-mark:not(:empty) ~ .col-wood .wood-part,
+.col-mark:not(:empty) ~ .col-wood .wood-solid {
+    background: linear-gradient(180deg, #fff2ef 0%, #f7b5a8 100%) !important; /* 温润血玉 */
+    border-color: #8c2618 !important; /* 朱砂檀木框 */
+    box-shadow: 0 0 10px rgba(220, 50, 20, 0.45), inset 0 1px 2px #fff !important;
+}
+
+/* 5. 动爻记号（○ 与 ×）改造成朱砂印泥小印章质感 */
+.col-mark {
+    width: 26px !important;
+    font-family: "STKaiti", "KaiTi", serif !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    color: #b52914 !important;
+    text-shadow: 0 0 2px rgba(181, 41, 20, 0.35) !important;
+}
