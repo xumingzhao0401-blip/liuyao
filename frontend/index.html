@@ -10,9 +10,10 @@
     <script src="js/libs/OrbitControls.js"></script>
 </head>
 <body>
+    <div class="landscape-bg-art"></div>
 
     <!-- 1. 全局水墨画远山与烟雨背景画布 -->
-    <canvas id="ink-bg-canvas" class="ink-bg-layer"></canvas>
+    
 
     <!-- 2. 全屏跟随光标写意水墨笔刷拖尾画布 -->
     <canvas id="ink-trail-canvas" class="ink-trail-layer"></canvas>
@@ -323,6 +324,88 @@
         </div>
     </div>
 
-<script src="/static/js/ink_effects.js"></script>
+
+
+<!-- 东方写意水墨山水与毫芒笔刷层 -->
+
+<canvas id="ink-trail-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;pointer-events:none;"></canvas>
+
+<script>
+(function() {
+    // 2. 跟随光标水墨毛笔行草拖尾 (速度感知、飞白留痕)
+    const trailCanvas = document.getElementById("ink-trail-canvas");
+    if (trailCanvas) {
+        const ctx = trailCanvas.getContext("2d");
+        let w = trailCanvas.width = window.innerWidth;
+        let h = trailCanvas.height = window.innerHeight;
+        window.addEventListener("resize", () => {
+            w = trailCanvas.width = window.innerWidth;
+            h = trailCanvas.height = window.innerHeight;
+        });
+
+        const points = [];
+        const MAX_POINTS = 25;
+        let lastX = 0, lastY = 0, lastTime = Date.now();
+
+        window.addEventListener("pointermove", (e) => {
+            const now = Date.now();
+            const dt = Math.max(now - lastTime, 1);
+            const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
+            const speed = Math.min(dist / dt, 5);
+            lastX = e.clientX;
+            lastY = e.clientY;
+            lastTime = now;
+
+            // 速度越快笔越细（飞白），越慢笔越粗（浓墨洇开）
+            const r = Math.max(16 - speed * 2.2, 4);
+            points.push({
+                x: e.clientX,
+                y: e.clientY,
+                radius: r,
+                alpha: 0.85
+            });
+
+            if (points.length > MAX_POINTS) points.shift();
+        });
+
+        function animateTrail() {
+            // 宣纸洇开淡出残影
+            ctx.globalCompositeOperation = "destination-out";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.14)";
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.globalCompositeOperation = "source-over";
+
+            if (points.length > 2) {
+                for (let i = 1; i < points.length - 1; i++) {
+                    const xc = (points[i].x + points[i + 1].x) / 2;
+                    const yc = (points[i].y + points[i + 1].y) / 2;
+                    const p = points[i];
+
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.quadraticCurveTo(p.x, p.y, xc, yc);
+                    ctx.strokeStyle = `rgba(28, 24, 20, ${p.alpha})`;
+                    ctx.lineWidth = p.radius;
+                    ctx.lineCap = "round";
+                    ctx.lineJoin = "round";
+                    ctx.stroke();
+
+                    p.alpha *= 0.92;
+                    p.radius *= 0.96;
+                }
+            }
+
+            while (points.length > 0 && points[0].alpha < 0.05) {
+                points.shift();
+            }
+
+            requestAnimationFrame(animateTrail);
+        }
+        requestAnimationFrame(animateTrail);
+    }
+})();
+</script>
+
 </body>
 </html>
