@@ -840,3 +840,39 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.openYaoDetailDrawer = openYaoDetailDrawer;
+
+
+function showClassicsModal() {
+    const modal = document.getElementById("classics-modal");
+    const listEl = document.getElementById("classics-list");
+    if (!modal || !listEl) return;
+
+    const classicsData = [
+        { title: "《增删卜易》", author: "清·野鹤老人", desc: "纳甲六爻实占巅峰之作，破除神煞繁冗，专主五行生克与月令今日辰旺衰。" },
+        { title: "《卜筮正宗》", author: "清·王洪绪", desc: "集先贤易说之大成，详论十八问答、黄金策千金赋注解，学理谨严。" },
+        { title: "《黄金策》", author: "明·刘伯温", desc: "六爻统括总纲，'动静阴阳，反复迁变'，辞藻典雅，断语精当。" },
+        { title: "《火珠林》", author: "唐·麻衣道者", desc: "铜钱摇卦之始，奠定钱代蓍草、以干支五行断吉凶之法门。" },
+        { title: "《易隐》", author: "清·曹九锡", desc: "融汇飞伏互变、神煞星宿与深层象数，考究隐幽，推断精细绝伦。" },
+        { title: "《易冒》", author: "清·程良玉", desc: "以聋道人笔名传世，条分缕析，辨析卦理极明，破除诸家疑窦。" },
+        { title: "《断易天机》", author: "明·万历刊本", desc: "收录元明诸多绝密秘诀，附图考证，专论百事吉凶生克。" },
+        { title: "《卜筮全书》", author: "明·姚际隆", desc: "汇辑周易源流、纳甲诸法，乃明清两代易占案头必习之渊薮。" },
+        { title: "《易林补遗》", author: "明·礼部侍郎张秀", desc: "精微细密，专攻六十四卦应验吉凶细目，补前人所未备。" },
+        { title: "《京氏易传》", author: "西汉·京房", desc: "八宫卦变、纳甲筮法之真正源头，开创以五行生克言人事天机之先河。" }
+    ];
+
+    listEl.innerHTML = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; max-height: 500px; overflow-y: auto; padding-right: 6px;">
+            ${classicsData.map(c => `
+                <div style="background: rgba(254, 252, 248, 0.95); border: 1.5px solid #d4c4a8; border-radius: 6px; padding: 10px 12px; box-shadow: 0 2px 6px rgba(40,25,10,0.06);">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+                        <strong style="color: #6a341b; font-size: 14px;">${c.title}</strong>
+                        <span style="font-size: 11px; color: #8c7355; font-weight: bold;">${c.author}</span>
+                    </div>
+                    <p style="margin: 0; font-size: 12px; color: #5a4f42; line-height: 1.5;">${c.desc}</p>
+                </div>
+            `).join("")}
+        </div>
+    `;
+
+    modal.style.display = "flex";
+}

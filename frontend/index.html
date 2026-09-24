@@ -234,6 +234,7 @@
                         <button class="btn btn-outline btn-sm" id="preset-local">恢复离线词典</button>
                     </div>
                 </div>
+                <form onsubmit="return false;">
                 <div class="form-group">
                     <label for="cfg-api-base">API Base URL</label>
                     <input type="text" id="cfg-api-base" class="input-control" placeholder="https://api.deepseek.com/v1">
@@ -249,6 +250,7 @@
                 <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
                     <button class="btn btn-primary" id="btn-save-settings">保存配置</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -290,8 +292,8 @@
     </div>
 
     <!-- 核心逻辑脚本 -->
-    <script src="js/scene3d.js"></script>
-    <script src="js/app.js"></script>
+    <script src="/static/js/scene3d.js?v=1790252350"></script>
+    <script src="/static/js/app.js?v=1790252350"></script>
 
     <!-- 3D 构件点击二级滑动抽屉 -->
     <div id="drawer-3d-detail" class="drawer-panel" style="display: none;">
