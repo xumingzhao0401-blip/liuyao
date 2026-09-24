@@ -1060,36 +1060,37 @@ button.btn-outline:hover {
 
 
 
+
+
 /* ================= 2D 排盘大木作金镶玉核心标准规则 ================= */
 
-/* 1. 排盘单行基准 */
+/* 1. 排盘单行 */
 .yao-row {
     display: flex !important;
     align-items: center !important;
-    padding: 8px 14px !important;
-    margin-bottom: 6px !important;
-    background: rgba(255, 254, 250, 0.94) !important;
+    padding: 9px 16px !important;
+    margin-bottom: 7px !important;
+    background: rgba(255, 254, 250, 0.95) !important;
     border: 1.2px solid #ded5c5 !important;
     border-radius: 6px !important;
 }
 
-/* 2. 爻木核心插槽：严格固定尺寸，杜绝父级任何边框污染 */
+/* 2. 爻木核心槽位 (宽度 152px，高度 22px，大气厚重) */
 .col-wood {
-    width: 146px !important;
-    min-width: 146px !important;
-    max-width: 146px !important;
-    height: 20px !important;
+    width: 152px !important;
+    min-width: 152px !important;
+    max-width: 152px !important;
+    height: 22px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    margin: 0 12px !important;
+    margin: 0 14px !important;
     background: none !important;
     border: none !important;
-    box-shadow: none !important;
     padding: 0 !important;
 }
 
-/* 3. 彻底剥除阴爻包裹层的一切边框与背景 (根除空心大框) */
+/* 3. 阴爻包裹层彻底透明 */
 .col-wood .wood-split-wrap,
 .wood-split-wrap {
     width: 100% !important;
@@ -1099,73 +1100,80 @@ button.btn-outline:hover {
     align-items: center !important;
     background: transparent !important;
     border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
     padding: 0 !important;
     margin: 0 !important;
 }
 
-/* 4. 实体木枋构件通用核心质感 (黑檀深木外框 + 羊脂白玉内芯) */
+/* 4. 大木梁实体结构 (外框深色黑檀木 + 羊脂白玉厚芯) */
 .col-wood .wood-block {
-    height: 18px !important;
-    background: #faf6ee !important; /* 羊脂白玉暖润内芯 */
-    border: 2.5px solid #241b14 !important; /* 深黑檀木外包厚框 */
-    border-radius: 3px !important;
+    height: 20px !important;
+    background: #faf6ed !important; /* 羊脂白玉内芯 */
+    border: 2px solid #231a12 !important; /* 沉穆黑檀外框 */
+    border-radius: 2px !important;
     box-sizing: border-box !important;
-    box-shadow: inset 0 1px 3px rgba(255,255,255,0.9), inset 0 -1px 3px rgba(160,140,110,0.4), 0 2px 5px rgba(25,15,5,0.2) !important;
     position: relative !important;
+    box-shadow: 
+        inset 0 1px 2px rgba(255,255,255,0.95),
+        inset 0 -1px 3px rgba(180,160,130,0.4),
+        0 2px 5px rgba(30,18,8,0.18) !important;
 }
 
-/* 5. 阳爻（整木整玉大月梁）：宽 146px，两端泥金铜抱箍 */
+/* 5. 阳爻（整木整玉大月梁）：宽 152px，两端紧贴边包金 */
 .col-wood .wood-solid {
-    width: 146px !important;
+    width: 152px !important;
 }
 
+/* 两端端头齐平泥金包箍 (紧贴外缘，不再往中间切断梁身) */
 .col-wood .wood-solid::before,
 .col-wood .wood-solid::after {
     content: "" !important;
     position: absolute !important;
-    top: -2.5px !important;
-    bottom: -2.5px !important;
-    width: 7px !important;
-    background: linear-gradient(180deg, #f3da97 0%, #b88d3b 100%) !important;
+    top: -2px !important;
+    bottom: -2px !important;
+    width: 6px !important;
+    background: linear-gradient(180deg, #f5dfa2 0%, #b88d3b 100%) !important;
     border: 1px solid #735118 !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25) !important;
     z-index: 2 !important;
 }
-.col-wood .wood-solid::before { left: 10px !important; }
-.col-wood .wood-solid::after { right: 10px !important; }
+.col-wood .wood-solid::before { left: 0px !important; border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
+.col-wood .wood-solid::after { right: 0px !important; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
 
-/* 6. 阴爻（二分断木枋）：左右各 64px，中间留白 18px */
+/* 6. 阴爻（二分断木枋）：左右各 68px，中间留白 16px */
 .col-wood .wood-part {
-    width: 64px !important;
+    width: 68px !important;
 }
 
-/* 阴爻内断口金色暗扣 */
+/* 阴爻端头包金：外侧贴边包金，内断口贴金暗榫 */
+.col-wood .wood-part::before,
 .col-wood .wood-part::after {
     content: "" !important;
     position: absolute !important;
-    top: -2.5px !important;
-    bottom: -2.5px !important;
+    top: -2px !important;
+    bottom: -2px !important;
     width: 5px !important;
-    background: linear-gradient(180deg, #f3da97 0%, #b88d3b 100%) !important;
+    background: linear-gradient(180deg, #f5dfa2 0%, #b88d3b 100%) !important;
     border: 1px solid #735118 !important;
     z-index: 2 !important;
 }
-.col-wood .wood-part:first-child::after { right: 5px !important; }
-.col-wood .wood-part:last-child::after { left: 5px !important; }
+/* 左段木：外端左侧与内断口右侧 */
+.col-wood .wood-split-wrap .wood-part:first-child::before { left: 0px !important; border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
+.col-wood .wood-split-wrap .wood-part:first-child::after { right: 0px !important; }
+/* 右段木：内断口左侧与外端右侧 */
+.col-wood .wood-split-wrap .wood-part:last-child::before { left: 0px !important; }
+.col-wood .wood-split-wrap .wood-part:last-child::after { right: 0px !important; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
 
 /* 7. 动爻（老阳○ / 老阴×）：朱砂红檀框 + 羊脂血玉内芯微光 */
 .anim-split,
 .anim-merge,
 .yao-row:has(.col-mark:not(:empty)) .wood-block,
 .yao-moving .wood-block {
-    background: linear-gradient(180deg, #fff2ee 0%, #fabcb0 100%) !important; /* 羊脂血玉 */
-    border-color: #821c0e !important; /* 朱砂檀木框 */
+    background: linear-gradient(180deg, #fff0ec 0%, #fabcb0 100%) !important;
+    border-color: #7d170a !important; /* 朱砂檀木框 */
     box-shadow: 0 0 10px rgba(210, 45, 18, 0.45), inset 0 1px 3px #ffffff !important;
 }
 
-/* 8. 动爻微动画：原地轻柔呼吸，绝不抽离跳帧 */
+/* 8. 动爻轻柔呼吸律动 */
 @keyframes breathingPulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.88; }
@@ -1175,7 +1183,7 @@ button.btn-outline:hover {
     animation: breathingPulse 2.2s infinite ease-in-out !important;
 }
 
-/* 9. 动爻标记（○ 与 ×）印章朱砂字 */
+/* 9. 动爻标记（○ 与 ×）印泥朱砂印记 */
 .col-mark {
     width: 26px !important;
     min-width: 26px !important;
