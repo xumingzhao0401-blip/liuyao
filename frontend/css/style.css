@@ -1207,3 +1207,37 @@ button.btn-outline:hover {
     color: #b52914 !important;
     text-align: center !important;
 }
+
+
+/* ================= 六十四卦图谱辞典卡片美化 ================= */
+.btn-filter {
+    background: #f5eedf !important;
+    border: 1px solid #d4c4a8 !important;
+    color: #5d4a36 !important;
+    padding: 3px 8px !important;
+    font-size: 12px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+}
+.btn-filter.active, .btn-filter:hover {
+    background: #8b4513 !important;
+    color: #fff !important;
+    border-color: #5c2d0c !important;
+}
+.manual-card {
+    background: #fffdfa;
+    border: 1.5px solid #ded3c1;
+    border-radius: 6px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.18s ease-in-out;
+    box-shadow: 0 2px 5px rgba(40,25,10,0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.manual-card:hover {
+    transform: translateY(-2px);
+    border-color: #8b4513;
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.16);
+}

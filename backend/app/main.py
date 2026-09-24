@@ -20,7 +20,25 @@ from app.core.najia import NaJiaEngine
 from app.core.time_engine import TimeEngine
 from app.core.classics_kb import EvidenceEngine, CLASSICS_CATALOG
 
+
+
 app = FastAPI(title="六爻象数营造与典籍考据系统 API", version="1.3.0")
+
+# ================= 规范挂载静态资源目录 =================
+from fastapi.staticfiles import StaticFiles
+import os
+
+frontend_dir = "/app/frontend"
+if not os.path.exists(frontend_dir):
+    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend"))
+
+# 同时挂载 /static 和根目录资源，确保全部兼容
+app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+app.mount("/css", StaticFiles(directory=os.path.join(frontend_dir, "css")), name="css")
+app.mount("/js", StaticFiles(directory=os.path.join(frontend_dir, "js")), name="js")
+if os.path.exists(os.path.join(frontend_dir, "assets")):
+    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dir, "assets")), name="assets")
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -326,3 +344,20 @@ if os.path.isdir(FRONTEND_DIR):
     @app.get("/")
     async def serve_index():
         return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
+
+# ---------------- 六十四卦营造图谱全量接口 ----------------
+from app.core.hexagram_manual_kb import get_hexagrams_summary, get_hexagram_detail
+
+@app.get("/api/hexagrams")
+async def api_list_hexagrams():
+    """获取六十四卦图谱概览列表"""
+    return {"status": "success", "data": get_hexagrams_summary()}
+
+@app.get("/api/hexagrams/{code}")
+async def api_get_hexagram_detail(code: str):
+    """获取单卦深度研读档案"""
+    data = get_hexagram_detail(code)
+    if not data:
+        return {"status": "error", "message": "卦象编码未查到"}
+    return {"status": "success", "data": data}
