@@ -1074,3 +1074,106 @@ window.loadHexagramToSystem = function(code, hexName) {
         }
     }
 };
+
+
+// ================= 全量专有名词词典交互系统 =================
+let g_glossaryData = [];
+let g_currentGlossaryCategory = "ALL";
+
+// 初始化与打开词典
+async function openGlossaryModal() {
+    const modal = document.getElementById("glossary-modal");
+    if (!modal) return;
+    modal.style.display = "flex";
+
+    if (g_glossaryData.length === 0) {
+        try {
+            const resp = await fetch("/api/glossary");
+            const res = await resp.json();
+            if (res.status === "success") {
+                g_glossaryData = res.data;
+            }
+        } catch (e) {
+            console.error("加载词典数据失败", e);
+        }
+    }
+    renderGlossaryCards();
+}
+
+function renderGlossaryCards(keyword = "") {
+    const container = document.getElementById("glossary-grid");
+    if (!container) return;
+
+    let list = g_glossaryData;
+    if (g_currentGlossaryCategory !== "ALL") {
+        list = list.filter(item => item.category === g_currentGlossaryCategory);
+    }
+    if (keyword.trim()) {
+        const kw = keyword.trim().toLowerCase();
+        list = list.filter(item => 
+            item.term.toLowerCase().includes(kw) || 
+            item.definition.toLowerCase().includes(kw) || 
+            item.example.toLowerCase().includes(kw)
+        );
+    }
+
+    if (list.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #8c7355; padding: 40px;">未检索到相关专有名词</div>';
+        return;
+    }
+
+    container.innerHTML = list.map(item => `
+        <div style="background: #fffdfa; border: 1.5px solid #d8ccb8; border-radius: 6px; padding: 14px; box-shadow: 0 2px 5px rgba(40,25,10,0.05); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; border-bottom: 1px dashed #e8dfd1; padding-bottom: 6px;">
+                    <div style="display: flex; align-items: baseline; gap: 8px;">
+                        <strong style="color: #6a341b; font-size: 15px; font-family: serif;">📌 ${item.term}</strong>
+                        <span style="font-size: 11px; color: #8c7355; font-style: italic;">[${item.pinyin}]</span>
+                    </div>
+                    <span style="font-size: 11px; background: #f3ebdc; color: #7d6348; padding: 1px 6px; border-radius: 3px;">${item.category_name}</span>
+                </div>
+
+                <div style="font-size: 12.5px; color: #3b2f27; line-height: 1.5; margin-bottom: 8px;">
+                    ${item.definition}
+                </div>
+
+                <div style="font-size: 11.5px; color: #7d6a58; background: #faf5ec; border-left: 3px solid #b88d3b; border-radius: 2px; padding: 5px 8px; margin-bottom: 8px; line-height: 1.45;">
+                    <strong style="color: #8b4513;">典籍出处：</strong>${item.classic}
+                </div>
+            </div>
+
+            <div style="font-size: 12px; color: #2e593b; background: #f4f8f4; border: 1px solid #d5e6d5; border-radius: 4px; padding: 7px 9px; line-height: 1.45;">
+                <strong style="color: #24572f;">💡 实占举例：</strong>${item.example}
+            </div>
+        </div>
+    `).join("");
+}
+
+window.filterGlossary = function(category, btn) {
+    g_currentGlossaryCategory = category;
+    document.querySelectorAll("#glossary-category-filters .btn-filter").forEach(b => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+    const kw = document.getElementById("glossary-search-input") ? document.getElementById("glossary-search-input").value : "";
+    renderGlossaryCards(kw);
+};
+
+window.searchGlossary = function(kw) {
+    renderGlossaryCards(kw);
+};
+
+// 绑定按钮事件
+document.addEventListener("DOMContentLoaded", () => {
+    const btnOpen = document.getElementById("btn-show-glossary");
+    if (btnOpen) {
+        btnOpen.onclick = (e) => {
+            e.preventDefault();
+            openGlossaryModal();
+        };
+    }
+    const btnClose = document.getElementById("glossary-modal-close");
+    if (btnClose) {
+        btnClose.onclick = () => {
+            document.getElementById("glossary-modal").style.display = "none";
+        };
+    }
+});
