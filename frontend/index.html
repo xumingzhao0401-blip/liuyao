@@ -10,6 +10,13 @@
     <script src="js/libs/OrbitControls.js"></script>
 </head>
 <body>
+
+    <!-- 1. 全局水墨画远山与烟雨背景画布 -->
+    <canvas id="ink-bg-canvas" class="ink-bg-layer"></canvas>
+
+    <!-- 2. 全屏跟随光标写意水墨笔刷拖尾画布 -->
+    <canvas id="ink-trail-canvas" class="ink-trail-layer"></canvas>
+
     <div class="app-container">
         <!-- 头部标题与控制栏 -->
         <header class="header">
@@ -316,5 +323,6 @@
         </div>
     </div>
 
+<script src="/static/js/ink_effects.js"></script>
 </body>
 </html>

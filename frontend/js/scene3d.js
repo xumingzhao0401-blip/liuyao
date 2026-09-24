@@ -38,8 +38,8 @@ class LiuYaoScene3D {
 
         // 1. 深邃水墨玄黑夜空
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x0a0908);
-        this.scene.fog = new THREE.FogExp2(0x0a0908, 0.02);
+        this.scene.background = new THREE.Color(0x12100e);
+        this.scene.fog = new THREE.FogExp2(0x12100e, 0.018);
 
         // 2. 摄像机
         this.camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 100);
@@ -183,7 +183,7 @@ class LiuYaoScene3D {
 
         // 2. 核心：羊脂白玉内芯材质 (半透明、温润如凝脂)
         this.materials.whiteJade = new THREE.MeshPhysicalMaterial({
-            color: 0xf4eee1,
+            color: 0xf8f4ea, roughness: 0.18, transmission: 0.45,
             emissive: 0xdfd4bc,
             emissiveIntensity: 0.18,
             roughness: 0.15,
