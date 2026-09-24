@@ -359,9 +359,9 @@ body {
 .mark-ying { background: #4da6ff; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; }
 
 .col-wood { width: 140px; display: flex; justify-content: center; }
-.wood-solid { width: 130px; height: 16px; background: var(--wood-solid); border-radius: 2px; }
-.wood-split-wrap { display: flex; gap: 20px; width: 130px; }
-.wood-part { width: 55px; height: 16px; background: var(--wood-solid); border-radius: 2px; }
+
+
+
 
 .col-mark { width: 24px; text-align: center; font-weight: bold; color: #d32f2f; }
 .col-detail { flex: 1; display: flex; gap: 8px; align-items: center; font-size: 12px; flex-wrap: wrap; }
@@ -1009,15 +1009,7 @@ button.btn-outline:hover {
 }
 
 /* 阳爻：完整金镶玉梁 (深黑檀包边 + 羊脂白玉内芯 + 泥金抱角) */
-.wood-solid {
-    width: 100% !important;
-    height: 14px !important;
-    background: #fbf7ee !important; /* 羊脂白玉内芯 */
-    border: 2px solid #3c2a1c !important; /* 黑檀木外框 */
-    border-radius: 3px !important;
-    position: relative;
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.9), inset 0 -1px 2px rgba(180,160,130,0.4), 0 2px 4px rgba(40,25,10,0.15) !important;
-}
+
 
 /* 阳爻两端泥金铜抱箍 */
 .wood-solid::before, .wood-solid::after {
@@ -1033,24 +1025,10 @@ button.btn-outline:hover {
 .wood-solid::after { right: 8px; }
 
 /* 阴爻：二分断木容器 */
-.wood-split-wrap {
-    width: 100% !important;
-    height: 14px !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-}
+
 
 /* 阴爻左右两段断玉 */
-.wood-part {
-    width: 44% !important;
-    height: 14px !important;
-    background: #fbf7ee !important;
-    border: 2px solid #3c2a1c !important;
-    border-radius: 3px !important;
-    position: relative;
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.9), inset 0 -1px 2px rgba(180,160,130,0.4), 0 2px 4px rgba(40,25,10,0.15) !important;
-}
+
 
 .wood-part::after {
     content: "";
@@ -1065,11 +1043,7 @@ button.btn-outline:hover {
 .wood-split-wrap .wood-part:last-child::after { left: 4px; }
 
 /* 动爻升格：朱砂檀木 + 血玉微光 (老阳/老阴) */
-.anim-split, .anim-merge, .yao-moving .wood-solid, .yao-moving .wood-part {
-    background: linear-gradient(180deg, #fff0ed 0%, #ffcfc7 100%) !important; /* 羊脂血玉 */
-    border-color: #8c2618 !important; /* 朱砂檀木框 */
-    box-shadow: 0 0 8px rgba(220, 50, 20, 0.45), inset 0 1px 2px #fff !important;
-}
+.anim-split, .anim-merge, .yao-moving .wood-solid, .yao-moving 
 
 /* 动爻标记（○ / ×）升格为金石朱印印记 */
 .col-mark {
@@ -1088,21 +1062,11 @@ button.btn-outline:hover {
 .wood-block,
 .col-wood .wood-block,
 .col-wood .wood-solid,
-.col-wood .wood-part {
-    height: 16px !important;
-    background: #faf6ed !important; /* 羊脂白玉色 */
-    border: 2px solid #2d2015 !important; /* 黑檀深木框 */
-    border-radius: 3px !important;
-    box-sizing: border-box !important;
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.9), inset 0 -1px 2px rgba(180,160,130,0.35), 0 2px 5px rgba(35,20,10,0.2) !important;
-    position: relative !important;
-}
+.col-wood 
 
 /* 2. 阳爻（整梁）：加长居中，两端加设泥金抱箍 */
 .wood-solid,
-.col-wood .wood-solid {
-    width: 140px !important;
-}
+.col-wood 
 
 .wood-solid::before,
 .wood-solid::after {
@@ -1119,18 +1083,10 @@ button.btn-outline:hover {
 .wood-solid::after { right: 8px !important; }
 
 /* 3. 阴爻（断梁容器与两段断玉） */
-.wood-split-wrap {
-    width: 140px !important;
-    height: 16px !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-}
+
 
 .wood-part,
-.col-wood .wood-part {
-    width: 60px !important;
-}
+.col-wood 
 
 /* 阴爻断面金榫暗扣 */
 .wood-part::after {
@@ -1151,11 +1107,7 @@ button.btn-outline:hover {
 .yao-row:has(.col-mark:not(:empty)) .wood-block,
 .col-mark:not(:empty) ~ .col-wood .wood-block,
 .col-mark:not(:empty) ~ .col-wood .wood-part,
-.col-mark:not(:empty) ~ .col-wood .wood-solid {
-    background: linear-gradient(180deg, #fff2ef 0%, #f7b5a8 100%) !important; /* 温润血玉 */
-    border-color: #8c2618 !important; /* 朱砂檀木框 */
-    box-shadow: 0 0 10px rgba(220, 50, 20, 0.45), inset 0 1px 2px #fff !important;
-}
+.col-mark:not(:empty) ~ .col-wood 
 
 /* 5. 动爻记号（○ 与 ×）改造成朱砂印泥小印章质感 */
 .col-mark {
@@ -1165,4 +1117,117 @@ button.btn-outline:hover {
     font-weight: 900 !important;
     color: #b52914 !important;
     text-shadow: 0 0 2px rgba(181, 41, 20, 0.35) !important;
+}
+
+
+/* ================= 2D 排盘大木作金镶玉核心样式 ================= */
+
+/* 爻位单行容器 */
+.yao-row {
+    padding: 10px 14px !important;
+    margin-bottom: 7px !important;
+    border-radius: 6px !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1.5px solid #d4c5af !important;
+    display: flex !important;
+    align-items: center !important;
+    box-shadow: 0 2px 6px rgba(40, 25, 10, 0.04) !important;
+}
+
+/* 爻梁容器 */
+.col-wood {
+    width: 156px !important;
+    height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 所有爻木通用底子：黑檀外框 + 羊脂白玉内芯 */
+.col-wood div,
+.wood-block,
+.wood-solid,
+.wood-part {
+    height: 16px !important;
+    background: #faf6ed !important; /* 羊脂白玉温润微暖白 */
+    border: 2px solid #2d2015 !important; /* 黑檀深木框 */
+    border-radius: 3px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.9), inset 0 -1px 2px rgba(180,160,130,0.35), 0 2px 5px rgba(35,20,10,0.2) !important;
+}
+
+/* 阳爻（整木整玉梁）：加长，两端泥金铜抱箍 */
+.wood-solid,
+.col-wood > .wood-solid,
+.col-wood > .wood-block.wood-solid {
+    width: 144px !important;
+    display: block !important;
+}
+
+.wood-solid::before,
+.wood-solid::after {
+    content: "" !important;
+    position: absolute !important;
+    top: -2px !important;
+    bottom: -2px !important;
+    width: 6px !important;
+    background: linear-gradient(180deg, #f2d794 0%, #b88d3b 100%) !important;
+    border: 1px solid #735118 !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25) !important;
+    z-index: 2 !important;
+}
+.wood-solid::before { left: 8px !important; }
+.wood-solid::after { right: 8px !important; }
+
+/* 阴爻容器与两段断梁 */
+.wood-split-wrap {
+    width: 144px !important;
+    height: 16px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.wood-part,
+.wood-split-wrap > .wood-part {
+    width: 62px !important;
+    display: block !important;
+}
+
+/* 阴爻内断口金色暗榫 */
+.wood-part::after {
+    content: "" !important;
+    position: absolute !important;
+    top: -2px !important;
+    bottom: -2px !important;
+    width: 5px !important;
+    background: linear-gradient(180deg, #f2d794 0%, #b88d3b 100%) !important;
+    border: 1px solid #735118 !important;
+    z-index: 2 !important;
+}
+.wood-split-wrap .wood-part:first-child::after { right: 4px !important; }
+.wood-split-wrap .wood-part:last-child::after { left: 4px !important; }
+
+/* 动爻升格（老阳○ / 老阴×）：朱砂红檀木框 + 血玉微光 */
+.yao-row.yao-moving .wood-solid,
+.yao-row.yao-moving .wood-part,
+.anim-split,
+.anim-merge {
+    background: linear-gradient(180deg, #fff2ef 0%, #f7b5a8 100%) !important; /* 羊脂血玉 */
+    border-color: #8c2618 !important; /* 朱砂檀木框 */
+    box-shadow: 0 0 10px rgba(220, 50, 20, 0.5), inset 0 1px 2px #fff !important;
+}
+
+/* 动爻标记（○ / ×）印章朱砂风 */
+.col-mark {
+    width: 28px !important;
+    font-family: "STKaiti", "KaiTi", serif !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    color: #b52914 !important;
+    text-shadow: 0 0 2px rgba(181, 41, 20, 0.4) !important;
 }
