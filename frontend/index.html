@@ -329,7 +329,10 @@
 
 
 
-<!-- 东方写意大泼墨与散水墨飞白拖尾层 -->
+
+
+
+<!-- 真实前粗后细毛笔写意笔触引擎 -->
 <canvas id="ink-trail-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;pointer-events:none;"></canvas>
 
 <script>
@@ -345,98 +348,76 @@
         h = canvas.height = window.innerHeight;
     });
 
-    const strokes = [];   // 主笔锋控制点
-    const splatters = []; // 发散的墨晕与飞白点
-    const MAX_STROKES = 45;
-
+    const strokes = [];
     let lastX = 0, lastY = 0, lastTime = Date.now();
 
     window.addEventListener("pointermove", (e) => {
         const now = Date.now();
         const dt = Math.max(now - lastTime, 1);
         const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
-        const speed = Math.min(dist / dt, 6);
+        const speed = Math.min(dist / dt, 8);
 
         lastX = e.clientX;
         lastY = e.clientY;
         lastTime = now;
 
-        // 主干笔锋：速度快则疾书飞白，速度慢则润泽墨浓
-        const radius = Math.max(18 - speed * 2.5, 4.5);
+        // 起笔饱满圆润 (落笔浓)，行笔随速度动态收细成锋
+        const r = Math.max(15 - speed * 1.8, 3.0);
         strokes.push({
             x: e.clientX,
             y: e.clientY,
-            radius: radius,
-            alpha: 0.85
+            radius: r,
+            alpha: 0.85,
+            age: 0
         });
-        if (strokes.length > MAX_STROKES) strokes.shift();
 
-        // 散墨动效：光标移动时向四周散落微小水墨微粒（洇散毛边）
-        const scatterCount = Math.floor(Math.random() * 3) + 2;
-        for (let i = 0; i < scatterCount; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const distance = Math.random() * (radius * 1.8) + 2;
-            splatters.push({
-                x: e.clientX + Math.cos(angle) * distance,
-                y: e.clientY + Math.sin(angle) * distance,
-                radius: Math.random() * 2.4 + 0.8,
-                alpha: Math.random() * 0.5 + 0.3,
-                decay: 0.985 // 超长寿命
-            });
-        }
+        // 维持精简控制队列
+        if (strokes.length > 24) strokes.shift();
     });
 
-    function renderInk() {
-        // 缓慢洇散淡出 (0.035 带来持续约 1.5~2 秒的墨痕驻留)
+    function renderBrush() {
+        // 加快消散速度 (0.16 保证 0.6~0.8 秒内墨迹自然收干褪去，不堆积)
         ctx.globalCompositeOperation = "destination-out";
-        ctx.fillStyle = "rgba(0, 0, 0, 0.035)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.16)";
         ctx.fillRect(0, 0, w, h);
 
         ctx.globalCompositeOperation = "source-over";
 
-        // 1. 绘制主体毛笔飞白线条
         if (strokes.length > 2) {
             for (let i = 1; i < strokes.length - 1; i++) {
-                const xc = (strokes[i].x + strokes[i + 1].x) / 2;
-                const yc = (strokes[i].y + strokes[i + 1].y) / 2;
-                const p = strokes[i];
+                const p0 = strokes[i];
+                const p1 = strokes[i + 1];
+
+                const xc = (p0.x + p1.x) / 2;
+                const yc = (p0.y + p1.y) / 2;
+
+                // 核心：前粗后细渐变锥形笔刷 (越靠近笔尾越细若游丝)
+                const taperRatio = (i / strokes.length); // 0(尾部极细) -> 1(笔头饱满)
+                const currentWidth = p0.radius * (0.35 + 0.65 * taperRatio);
 
                 ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.quadraticCurveTo(p.x, p.y, xc, yc);
-                ctx.strokeStyle = `rgba(26, 20, 16, ${p.alpha})`;
-                ctx.lineWidth = p.radius;
+                ctx.moveTo(p0.x, p0.y);
+                ctx.quadraticCurveTo(p0.x, p0.y, xc, yc);
+                
+                // 松烟焦墨，带水墨微透明渐变
+                ctx.strokeStyle = `rgba(24, 18, 14, ${p0.alpha * taperRatio})`;
+                ctx.lineWidth = currentWidth;
                 ctx.lineCap = "round";
                 ctx.lineJoin = "round";
                 ctx.stroke();
 
-                // 缓慢衰减
-                p.alpha *= 0.975;
-                p.radius *= 0.99;
+                p0.alpha *= 0.88;
             }
         }
 
-        // 2. 绘制向外扩散的散水墨花与飞白
-        for (let i = splatters.length - 1; i >= 0; i--) {
-            const sp = splatters[i];
-            ctx.beginPath();
-            ctx.arc(sp.x, sp.y, sp.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(28, 22, 18, ${sp.alpha})`;
-            ctx.fill();
-
-            sp.alpha *= sp.decay;
-            if (sp.alpha < 0.03) {
-                splatters.splice(i, 1);
-            }
-        }
-
-        while (strokes.length > 0 && strokes[0].alpha < 0.03) {
+        while (strokes.length > 0 && strokes[0].alpha < 0.05) {
             strokes.shift();
         }
 
-        requestAnimationFrame(renderInk);
+        requestAnimationFrame(renderBrush);
     }
-    requestAnimationFrame(renderInk);
+
+    requestAnimationFrame(renderBrush);
 })();
 </script>
 
