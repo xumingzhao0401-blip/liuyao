@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六爻象数营造与典籍引证系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 本地引入 Three.js 核心与轨道控制器 -->
+    <script src="js/libs/three.min.js"></script>
+    <script src="js/libs/OrbitControls.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 头部标题与控制栏 -->
+        <header class="header">
+            <div class="header-content">
+                <h1>六爻象数营造与典籍引证系统</h1>
+                <p class="subtitle">京氏易传 · 火珠林法 · 增删卜易实测考据 · 初学白话通俗导读</p>
+            </div>
+            <div class="header-actions">
+                <button id="btn-toggle-view" class="btn btn-primary" style="background: #8b4513;">🏛️ 切换 3D 营造视界</button>
+                <button id="btn-open-layman" class="btn btn-primary" style="background: #2e7d32;">💡 初学白话解卦</button>
+                <button id="btn-show-glossary" class="btn btn-outline">📖 专有名词白话典</button>
+                <button id="btn-show-prompt" class="btn btn-outline">📜 专业Prompt</button>
+                <button id="btn-open-settings" class="btn btn-outline">⚙️ 模型与API</button>
+                <button id="btn-show-classics" class="btn btn-outline">十大典籍档案</button>
+            </div>
+        </header>
+
+        <!-- 主操作区 -->
+        <div class="main-grid">
+            <!-- 左侧：时空时态设定与逐爻起卦交互 -->
+            <section class="panel control-panel">
+                <h2 class="panel-title">占事时空与起卦</h2>
+
+                <div class="form-group">
+                    <label for="select-tense">占问时态与维度 (决定应期推演逻辑)</label>
+                    <select id="select-tense" class="input-control">
+                        <option value="future" selected>推断后事发展与吉凶应期 (未来 - 何时发生？)</option>
+                        <option value="present">研判当下处境与决断进退 (当下 - 目前如何？)</option>
+                        <option value="past">推求前事因由与伏笔源起 (过往 - 因何而起？)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-question">所占何事 / 问事由心 (如: 跳槽求职、合伙投资、考学吉凶)</label>
+                    <input type="text" id="input-question" placeholder="例如：下个月面试某企业能否顺利入职？" class="input-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="input-datetime">起卦时空 (留空为当前系统时令)</label>
+                    <input type="text" id="input-datetime" placeholder="2026-09-24 10:00:00" class="input-control">
+                </div>
+
+                <!-- 逐爻起卦操作台 -->
+                <div class="step-divine-box">
+                    <div class="step-counter-bar">
+                        <span>摇卦进度：<strong id="step-count-text">第 1 爻 (初爻)</strong></span>
+                        <div class="step-dots" id="step-dots">
+                            <span class="dot active">1</span>
+                            <span class="dot">2</span>
+                            <span class="dot">3</span>
+                            <span class="dot">4</span>
+                            <span class="dot">5</span>
+                            <span class="dot">6</span>
+                        </div>
+                    </div>
+
+                    <div class="control-actions-vertical">
+                        <button id="btn-toss-single" class="btn btn-primary">
+                            <span class="icon">🪙</span> 掷下一爻 (单次摇卦)
+                        </button>
+                        <div class="btn-group-row">
+                            <button id="btn-toss-all" class="btn btn-secondary btn-sm">一键摇完六爻</button>
+                            <button id="btn-undo-single" class="btn btn-outline btn-sm">撤销上一爻</button>
+                            <button id="btn-reset-divine" class="btn btn-outline btn-sm">重置</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 铜钱实时掷出动态舞台 -->
+                <div id="coin-toss-area" class="coin-stage">
+                    <div class="stage-info" id="stage-info">铜钱就绪，点击上方按钮掷爻</div>
+                    <div class="coins-row">
+                        <div class="coin coin-front" id="coin-a">
+                            <span class="coin-text-top">乾</span><span class="coin-text-bottom">隆</span><span class="coin-text-right">通</span><span class="coin-text-left">寶</span>
+                        </div>
+                        <div class="coin coin-back" id="coin-b">
+                            <span class="coin-text-left" style="font-family: serif; font-size: 11px;">ᠪᠣᠣ</span><span class="coin-text-right" style="font-family: serif; font-size: 11px;">ᠴᡳᠣᠠᠨ</span>
+                        </div>
+                        <div class="coin coin-front" id="coin-c">
+                            <span class="coin-text-top">乾</span><span class="coin-text-bottom">隆</span><span class="coin-text-right">通</span><span class="coin-text-left">寶</span>
+                        </div>
+                    </div>
+                    <div class="toss-result-text" id="toss-result-text">点数：--</div>
+                </div>
+
+                <!-- 古籍时空提纲看板 -->
+                <div class="bazi-board" id="bazi-board" style="display: none;">
+                    <div class="classical-date-display" id="classical-date-text">--</div>
+                    <div class="bazi-row">
+                        <span class="bazi-col"><small>年柱</small><strong id="bz-year">--</strong></span>
+                        <span class="bazi-col"><small>月令提纲(大势)</small><strong id="bz-month">--</strong></span>
+                        <span class="bazi-col"><small>日辰主事(操盘)</small><strong id="bz-day">--</strong></span>
+                        <span class="bazi-col"><small>时辰</small><strong id="bz-time">--</strong></span>
+                    </div>
+                    <div class="status-summary">
+                        <span>日旬空(暂无)：<strong id="bz-kong" class="badge badge-warn">--</strong></span>
+                        <span>月破支(逆势)：<strong id="bz-po" class="badge badge-danger">--</strong></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 右侧：木块爻象盘面与 3D 营造视界 -->
+            <section class="panel hexagram-panel">
+                <div class="panel-header-flex">
+                    <h2 class="panel-title">六爻排盘 · 木块象数营造</h2>
+                    <div id="hex-names" class="hex-names-tag">虚席以待 · 请摇卦</div>
+                </div>
+
+                <!-- 3D 沉浸式营造舞台 -->
+                <div id="viewport-3d" class="viewport-3d" style="display: none;">
+                    <!-- 3D 梁架屏幕投影矢量高清水墨玉牌容器 -->
+                    <div id="labels-3d-container" class="labels-3d-overlay"></div>
+                    <div class="viewport-3d-hud">
+                        <span>按住鼠标左键旋转视角 | 滚轮缩放 | 右键平移</span>
+                        <button id="btn-reset-camera" class="btn-hud">重置视角</button>
+                    </div>
+                </div>
+
+                <!-- 2D 原版木块盘面 -->
+                <div class="hexagram-board" id="hexagram-board">
+                    <div class="empty-tip">请点击左侧“掷下一爻”或“一键摇完”，体验木块自底向上生长营造之象</div>
+                </div>
+
+                <!-- 初学看盘指引条 -->
+                <div class="layman-quick-bar" id="layman-quick-bar" style="display: none;">
+                    <div class="quick-bar-text">
+                        <strong>💡 初学看盘口诀：</strong>
+                        <span>【世】代表你本人；【应】代表对方或你想办的事；上方【月令】是大气候，【日辰】是直接主事者；带红色标记的是发生突变的动爻。</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 底部：典籍依据与考证看板 -->
+        <section class="panel evidence-section" id="evidence-section" style="display: none;">
+            <div class="panel-header-flex">
+                <h2 class="panel-title">典籍依据 · 学理溯源</h2>
+                <span class="badge badge-info" id="evidence-count">0 条依据</span>
+            </div>
+            <div class="evidence-grid" id="evidence-grid"></div>
+        </section>
+    </div>
+
+    <!-- 鼠标悬浮气泡 -->
+    <div id="selection-bubble" class="selection-bubble" style="display: none;">
+        <button id="btn-bubble-explain" class="bubble-btn">💡 考据研读</button>
+    </div>
+
+    <!-- 自定义右键菜单 -->
+    <div id="context-menu" class="custom-context-menu" style="display: none;">
+        <div class="context-menu-item" id="menu-item-explain">🔍 结合当前卦境考据释义 (大白话)</div>
+        <div class="context-menu-item" id="menu-item-copy">📋 复制选中文本</div>
+    </div>
+
+    <!-- 初学白话通俗解盘弹窗 -->
+    <div id="layman-modal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>💡 初学白话通俗解盘 · 现代人话全景解读</h3>
+                <span class="modal-close" id="layman-modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="model-badge-info" id="layman-model-badge">研读引擎: 初始化中...</div>
+                <div id="layman-content" class="layman-article">
+                    <p style="color: #6e675f;">正在为你把干支、五行生克与月破旬空转化为现代普通人能看懂的生活/职场白话分析...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 专有名词白话词典弹窗 -->
+    <div id="glossary-modal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>📖 六爻核心专有名词 · 白话现代通俗辞典</h3>
+                <span class="modal-close" id="glossary-modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 13px; color: #6e675f; margin-bottom: 16px;">
+                    六爻并不神秘，其核心就是一套用自然五行模拟人情事态变化的系统。以下是初学者必须掌握的“核心概念大白话版”：
+                </p>
+                <div class="glossary-grid" id="glossary-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 划词考据弹出详情模态层 -->
+    <div id="explain-modal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="modal-term-title">象数考据与大白话释义</h3>
+                <span class="modal-close" id="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="model-badge-info" id="modal-model-badge">使用模型: 离线词典</div>
+                <div id="modal-explanation" class="markdown-body">正在调阅古籍与卦象法理推演中...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API 设置弹窗 -->
+    <div id="settings-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚙️ 模型与 API 设置 (即改即用)</h3>
+                <span class="modal-close" id="settings-modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>快捷预设服务商</label>
+                    <div class="btn-group-row">
+                        <button class="btn btn-outline btn-sm" id="preset-deepseek">DeepSeek 官方</button>
+                        <button class="btn btn-outline btn-sm" id="preset-qwen">阿里千问 (DashScope)</button>
+                        <button class="btn btn-outline btn-sm" id="preset-local">恢复离线词典</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-api-base">API Base URL</label>
+                    <input type="text" id="cfg-api-base" class="input-control" placeholder="https://api.deepseek.com/v1">
+                </div>
+                <div class="form-group">
+                    <label for="cfg-api-key">API Key (保存在本地浏览器中)</label>
+                    <input type="password" id="cfg-api-key" class="input-control" placeholder="sk-...">
+                </div>
+                <div class="form-group">
+                    <label for="cfg-model-name">模型标识 (Model Name，严禁带空格)</label>
+                    <input type="text" id="cfg-model-name" class="input-control" placeholder="deepseek-chat 或 qwen-plus">
+                </div>
+                <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
+                    <button class="btn btn-primary" id="btn-save-settings">保存配置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 动态 Prompt 预览弹窗 -->
+    <div id="prompt-modal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>📜 当前卦象系统生成的动态 Prompt 骨架</h3>
+                <span class="modal-close" id="prompt-modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 12px; color: #6e675f; margin-bottom: 8px;">
+                    该 Prompt 自动装配了时空干支、纳甲六神、动变标签与典籍证据链。您可以直接在下方自由修改补充。
+                </p>
+                <textarea id="prompt-content-text" class="input-control" rows="14" style="font-family: monospace; font-size: 13px; line-height: 1.5;" placeholder="卦成后在此生成动态 Prompt..."></textarea>
+                <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 12px; color: #2e7d32;">✍️ 支持自由修改编辑，右侧按钮可直接按修改后的内容提交解读</span>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-outline" id="btn-copy-prompt">📋 复制 Prompt</button>
+                        <button class="btn btn-primary" id="btn-submit-custom-prompt" style="background: #2e7d32;">🚀 提交此Prompt让AI解读</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 十大典籍档案 -->
+    <div id="classics-modal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>系统收录十大六爻经典典籍档案</h3>
+                <span class="modal-close" id="classics-modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="classics-list" id="classics-list">加载中...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 核心逻辑脚本 -->
+    <script src="js/scene3d.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- 3D 构件点击二级滑动抽屉 -->
+    <div id="drawer-3d-detail" class="drawer-panel" style="display: none;">
+        <div class="drawer-header">
+            <div class="drawer-title-group">
+                <span class="drawer-badge" id="dr-yao-pos">第五爻</span>
+                <h3 id="dr-yao-title">父母 申金 (阳动)</h3>
+            </div>
+            <button class="drawer-close" id="dr-close-btn">&times;</button>
+        </div>
+        <div class="drawer-body">
+            <div class="drawer-section">
+                <h4>🏛️ 营造结构与纳甲位次</h4>
+                <div class="drawer-tags" id="dr-tags"></div>
+            </div>
+
+            <div class="drawer-section">
+                <h4>💡 白话透析与角色隐喻</h4>
+                <p class="drawer-desc" id="dr-desc">正在解析该爻在卦局中的角色...</p>
+            </div>
+
+            <div class="drawer-section">
+                <h4>⏳ 时空生克与应期指引</h4>
+                <div class="drawer-box" id="dr-timing-box"></div>
+            </div>
+
+            <div class="drawer-actions">
+                <button class="btn btn-primary" id="dr-ai-ask-btn" style="width: 100%;">🤖 让 AI 深入推演此爻吉凶与对策</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
