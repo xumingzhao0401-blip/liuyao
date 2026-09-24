@@ -1,6 +1,3 @@
-为你量身重写了一份符合现代开源展陈级标准的 `README.md`，排版结构严谨、视觉徽标齐全、架构与部署逻辑清晰，方便你直接复制并粘贴到 GitHub 网页端进行编辑与保存：
-
-```markdown
 # 🏛️ 六爻象数营造与典籍引证系统 (LiuYao 3D Digital Aesthetic System)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](https://opensource.org/licenses/MIT)
@@ -30,6 +27,24 @@
 ### 3. 🤖 深度大模型全盘推演
 * **双模易学 Prompt 引擎**：自动编排结构化象数考据 Prompt，支持复制。
 * **支持自定义大模型接入**：支持在前端通过对话框直接填入兼容 OpenAI / DeepSeek / 通义千问等接口的 API Key 与 Base URL，即时生成通俗易懂的长文决策研读。
+
+---
+
+## 🛠️ 技术栈架构
+
+```text
+liuyao_system/
+├── backend/
+│   └── app/
+│       ├── core/          # 六爻象数核心算法、排盘、时空纳甲与典籍考据知识库
+│       └── main.py        # FastAPI 高性能异步服务与接口路由
+├── frontend/
+│   ├── css/style.css      # 新中式数字展陈样式、磨砂玻璃 HUD 与二级抽屉动效
+│   ├── js/scene3d.js      # Three.js 3D 金镶玉月梁、管状浑天仪与碰撞拾取引擎
+│   ├── js/app.js          # 交互编排、排盘状态机与大模型流式调用
+│   └── index.html         # 响应式主视图与矢量投影字牌容器
+├── docker-compose.yml     # 标准化单机编排配置（含健康检查与持久挂载）
+└── Dockerfile             # 极简轻量级 Python 运行时容器
 
 ---
 
