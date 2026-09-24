@@ -896,11 +896,10 @@ function showClassicsModal() {
 window.showClassicsModal = showClassicsModal;
 
 
-// ==================== 六十四卦营造图谱与抽屉交互系统 ====================
+// ==================== 六十四卦营造图谱与抽屉交互系统 (完美排版版) ====================
 let g_hexManualData = [];
 let g_currentFilterPalace = "ALL";
 
-// 1. 打开六十四卦总览大弹窗
 window.openHexagramManualModal = async function() {
     const modal = document.getElementById("hex-manual-modal");
     if (!modal) return;
@@ -920,15 +919,14 @@ window.openHexagramManualModal = async function() {
     window.renderHexManualCards();
 };
 
-// 2. 渲染微缩六爻构件条
 function renderMiniHexBars(code) {
-    let html = '<div style="display:flex; flex-direction:column-reverse; gap:2.5px; width:44px; margin-right:10px;">';
+    let html = '<div style="display:flex; flex-direction:column-reverse; gap:2.5px; width:44px; min-width:44px; margin-right:12px;">';
     for (let i = 0; i < 6; i++) {
         const bit = code[i];
         if (bit === '1') {
-            html += '<div style="height:4.5px; width:100%; background:#241b13; border-radius:1px;"></div>';
+            html += '<div style="height:4px; width:100%; background:#241b13; border-radius:1px;"></div>';
         } else {
-            html += '<div style="display:flex; justify-content:space-between; height:4.5px; width:100%;">';
+            html += '<div style="display:flex; justify-content:space-between; height:4px; width:100%;">';
             html += '<div style="width:44%; height:100%; background:#241b13; border-radius:1px;"></div>';
             html += '<div style="width:44%; height:100%; background:#241b13; border-radius:1px;"></div>';
             html += '</div>';
@@ -938,7 +936,6 @@ function renderMiniHexBars(code) {
     return html;
 }
 
-// 3. 卡片网格实时渲染
 window.renderHexManualCards = function(filterKeyword = "") {
     const container = document.getElementById("manual-cards-container");
     if (!container) return;
@@ -949,7 +946,7 @@ window.renderHexManualCards = function(filterKeyword = "") {
     }
     if (filterKeyword.trim()) {
         const kw = filterKeyword.trim();
-        filtered = filtered.filter(item => item.name.includes(kw) || item.summary.includes(kw));
+        filtered = filtered.filter(item => item.name.includes(kw) || item.summary.includes(kw) || item.guaci.includes(kw));
     }
 
     if (filtered.length === 0) {
@@ -957,26 +954,37 @@ window.renderHexManualCards = function(filterKeyword = "") {
         return;
     }
 
+    // 充实卡片：填入《象传》要旨与《周易》卦辞，卡片高度自适应，杜绝空白
     container.innerHTML = filtered.map(item => `
-        <div class="manual-card" onclick="window.openHexDetailDrawer('${item.code}')">
-            <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                ${renderMiniHexBars(item.code)}
-                <div style="flex: 1;">
-                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                        <strong style="color: #4a2810; font-size: 15px; font-family: serif;">${item.name}</strong>
-                        <span style="font-size: 11px; color: #8c6d48; background: #f3ebdc; padding: 1px 5px; border-radius: 3px;">${item.palace}宫·${item.type}</span>
+        <div class="manual-card" onclick="window.openHexDetailDrawer('${item.key}')" style="display: flex; flex-direction: column; justify-content: space-between; min-height: 175px;">
+            <div>
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                    ${renderMiniHexBars(item.code)}
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                            <strong style="color: #4a2810; font-size: 15px; font-family: serif;">${item.name}</strong>
+                            <span style="font-size: 11px; color: #8c6d48; background: #f3ebdc; padding: 1px 6px; border-radius: 3px;">${item.palace}宫·${item.type}</span>
+                        </div>
+                        <div style="font-size: 11px; color: #7d6b59; margin-top: 2px;">第${item.order}卦 · 上${item.upper} 下${item.lower}</div>
                     </div>
-                    <div style="font-size: 11px; color: #7d6b59; margin-top: 2px;">上${item.upper} · 下${item.lower}</div>
+                </div>
+
+                <div style="font-size: 11.5px; color: #7d6a58; background: #faf5ec; border: 1px dashed #e4d8c5; border-radius: 4px; padding: 4px 8px; margin-bottom: 6px; line-height: 1.4;">
+                    <span style="color: #8b4513; font-weight: bold;">【象曰】</span>${item.xiang}
+                </div>
+
+                <div style="font-size: 12px; color: #3b2f27; line-height: 1.4; margin-bottom: 6px;">
+                    <span style="color: #8c6d48; font-weight: bold;">卦辞：</span>${item.guaci}
                 </div>
             </div>
-            <p style="margin: 0; font-size: 12px; color: #5a4f42; line-height: 1.45; border-top: 1px dashed #ebd9c5; padding-top: 6px;">
-                ${item.summary}
-            </p>
+
+            <div style="margin: 0; font-size: 11.5px; color: #5a4f42; line-height: 1.4; border-top: 1px solid #ebd9c5; padding-top: 5px;">
+                💡 ${item.summary}
+            </div>
         </div>
     `).join("");
 };
 
-// 4. 宫位筛选过滤
 window.filterHexManual = function(palace, btn) {
     g_currentFilterPalace = palace;
     document.querySelectorAll("#manual-palace-filters .btn-filter").forEach(b => b.classList.remove("active"));
@@ -985,49 +993,65 @@ window.filterHexManual = function(palace, btn) {
     window.renderHexManualCards(kw);
 };
 
-// 5. 关键词搜索
 window.searchHexManual = function(kw) {
     window.renderHexManualCards(kw);
 };
 
-// 6. 三级单卦研读抽屉展开
-window.openHexDetailDrawer = async function(code) {
+window.openHexDetailDrawer = async function(key) {
     const drawer = document.getElementById("hex-detail-drawer");
     if (!drawer) return;
 
     try {
-        const resp = await fetch(`/api/hexagrams/${code}`);
+        const resp = await fetch(`/api/hexagrams/${key}`);
         const res = await resp.json();
         if (res.status !== "success") return;
         const d = res.data;
 
-        document.getElementById("dtl-hex-name").innerText = `《${d.name}》 (第${d.order}卦)`;
+        document.getElementById("dtl-hex-name").innerText = `《${d.name}》 (周易第${d.order}卦)`;
         document.getElementById("dtl-palace-tag").innerText = `${d.palace}宫属${d.element} · ${d.type}`;
         document.getElementById("dtl-structure-text").innerText = `上卦：${d.upper}  |  下卦：${d.lower}  |  世爻：第${d.shi}爻  |  应爻：第${d.ying}爻`;
         document.getElementById("dtl-layman-text").innerText = d.layman;
-        document.getElementById("dtl-summary-text").innerText = d.summary;
+        document.getElementById("dtl-summary-text").innerHTML = `
+            <strong>卦辞：</strong>${d.guaci}<br>
+            <strong>象传：</strong>${d.xiang}<br>
+            <strong>大要：</strong>${d.summary}
+        `;
 
-        // 绘制抽屉里稍微大一点的六爻月梁微标
+        // 彻底解决世应挤占木梁长度问题：月梁严格锁定 160px，世应移至独立右侧栏
         let barsHtml = '';
         for (let i = 0; i < 6; i++) {
-            const bit = code[i];
+            const bit = d.code[i];
             const isShi = (i + 1 === d.shi);
             const isYing = (i + 1 === d.ying);
-            let tag = isShi ? '<span style="font-size:10px; color:#b52914; margin-left:8px; font-weight:bold;">[世]</span>' : (isYing ? '<span style="font-size:10px; color:#186a87; margin-left:8px; font-weight:bold;">[应]</span>' : '');
-
-            if (bit === '1') {
-                barsHtml += `<div style="display:flex; align-items:center; width:160px;"><div style="height:9px; width:100%; background:#241b13; border-radius:2px; box-shadow:0 1px 2px rgba(0,0,0,0.2);"></div>${tag}</div>`;
-            } else {
-                barsHtml += `<div style="display:flex; align-items:center; width:160px;"><div style="display:flex; justify-content:space-between; height:9px; width:100%;"><div style="width:45%; height:100%; background:#241b13; border-radius:2px;"></div><div style="width:45%; height:100%; background:#241b13; border-radius:2px;"></div></div>${tag}</div>`;
+            let tagHtml = '';
+            if (isShi) {
+                tagHtml = '<span style="font-size:11px; color:#b52914; font-weight:bold; background:#ffece8; border:1px solid #d22d12; border-radius:3px; padding:0 4px;">世</span>';
+            } else if (isYing) {
+                tagHtml = '<span style="font-size:11px; color:#186a87; font-weight:bold; background:#e8f4fa; border:1px solid #186a87; border-radius:3px; padding:0 4px;">应</span>';
             }
+
+            // 梁枋本体：固定宽度 160px，两边绝对不被挤缩
+            let beamHtml = '';
+            if (bit === '1') {
+                beamHtml = '<div style="width:160px; height:10px; background:#241b13; border-radius:2px; box-shadow:0 1px 3px rgba(0,0,0,0.25);"></div>';
+            } else {
+                beamHtml = '<div style="display:flex; justify-content:space-between; width:160px; height:10px;"><div style="width:72px; height:100%; background:#241b13; border-radius:2px;"></div><div style="width:72px; height:100%; background:#241b13; border-radius:2px;"></div></div>';
+            }
+
+            // 组合：爻位序号 + 固定长度木梁 + 独立世应插槽
+            barsHtml += `
+                <div style="display:flex; align-items:center; justify-content:center; gap:8px; width:100%; margin-bottom:4px;">
+                    <span style="font-size:11px; color:#8c7355; width:28px; text-align:right;">${i+1}爻</span>
+                    <div style="width:160px; flex-shrink:0;">${beamHtml}</div>
+                    <div style="width:30px; text-align:left; flex-shrink:0;">${tagHtml}</div>
+                </div>
+            `;
         }
         document.getElementById("dtl-bars-visual").innerHTML = barsHtml;
 
-        // 绑定一键载入推演台按钮动作
         const loadBtn = document.getElementById("btn-load-to-board");
         loadBtn.onclick = () => {
-            // 将六位编码填入系统起卦流程
-            window.loadHexagramToSystem(code, d.name);
+            window.loadHexagramToSystem(d.code, d.name);
             drawer.style.display = "none";
             document.getElementById("hex-manual-modal").style.display = "none";
         };
@@ -1038,11 +1062,9 @@ window.openHexDetailDrawer = async function(code) {
     }
 };
 
-// 7. 一键将所学之卦载入主推演台
 window.loadHexagramToSystem = function(code, hexName) {
     if (typeof g_tossHistory !== "undefined") {
         g_tossHistory = [];
-        // 1=阳(少阳7)，0=阴(少阴8)
         for (let i = 0; i < 6; i++) {
             g_tossHistory.push(code[i] === '1' ? 7 : 8);
         }
