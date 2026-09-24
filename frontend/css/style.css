@@ -936,3 +936,46 @@ button.btn-outline:hover {
     display: block !important;
     opacity: 1 !important;
 }
+
+
+/* ================= 3D 营造舞台：完全独立沉浸，绝不透出背景底图 ================= */
+#viewport-3d, .viewport-3d {
+    position: relative !important;
+    background: #0f0d0c !important; /* 纯正玄黛幽黑，彻底遮挡任何背景 */
+    border: 1.5px solid #4a3d31 !important;
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.9), 0 8px 30px rgba(25, 18, 12, 0.25) !important;
+    overflow: hidden !important;
+    cursor: grab;
+}
+
+#viewport-3d:active {
+    cursor: grabbing;
+}
+
+/* 确保 3D 内部悬浮标签可点击，且不挡住 canvas 事件 */
+.labels-3d-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* 穿透到 canvas 让 3D 射线拾取正常工作 */
+    z-index: 10;
+}
+
+.yao-label-tag {
+    pointer-events: auto !important; /* 悬浮标签自身可点击 */
+    cursor: pointer !important;
+    user-select: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.yao-label-tag:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(220, 160, 60, 0.6) !important;
+}
+
+/* 确保二级抽屉浮在最顶层 */
+#drawer-3d-detail, .drawer-panel {
+    z-index: 999999 !important;
+}

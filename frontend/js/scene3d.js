@@ -24,6 +24,11 @@ class LiuYaoScene3D {
         
         this.trackedBeams = [];
         this.animatingBeams = [];
+        this.clickableMeshes = [];
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2();
+        this.clickableMeshes = []; // 存储所有可点击的爻木构件
+        this.pointerDownPos = { x: 0, y: 0 };
         this.isInitialized = false;
 
         this.init();
@@ -38,8 +43,8 @@ class LiuYaoScene3D {
 
         // 1. 深邃水墨玄黑夜空
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x12100e);
-        this.scene.fog = new THREE.FogExp2(0x12100e, 0.018);
+        this.scene.background = new THREE.Color(0x0e0c0a);
+        this.scene.fog = new THREE.FogExp2(0x0e0c0a, 0.02);
 
         // 2. 摄像机
         this.camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 100);
@@ -93,6 +98,19 @@ class LiuYaoScene3D {
         this.scene.add(this.particleGroup);
 
         window.addEventListener("resize", () => this.onWindowResize());
+
+        // 绑定 3D 构件精准点击交互
+        const dom = this.renderer.domElement;
+        dom.addEventListener("pointerdown", (e) => {
+            this.pointerDownPos = { x: e.clientX, y: e.clientY };
+        });
+        dom.addEventListener("pointerup", (e) => {
+            const dist = Math.hypot(e.clientX - this.pointerDownPos.x, e.clientY - this.pointerDownPos.y);
+            // 移动小于 5px 视为纯点击，非旋转视角拖拽
+            if (dist < 5) {
+                this.onCanvasClick(e);
+            }
+        });
         this.animate();
         this.isInitialized = true;
     }
@@ -526,6 +544,7 @@ class LiuYaoScene3D {
         this.hexGroup.clear();
         this.trackedBeams = [];
         this.animatingBeams = [];
+        this.clickableMeshes = [];
         if (this.labelsContainer) this.labelsContainer.innerHTML = "";
         if (!lines || lines.length === 0) return;
 
@@ -609,6 +628,13 @@ class LiuYaoScene3D {
             }
 
             this.hexGroup.add(yaoNode);
+            // 递归将该爻所有网格打上爻数据标记，便于射线拾取
+            yaoNode.traverse((child) => {
+                if (child.isMesh) {
+                    child.userData = { lineData: line, yaoNode: yaoNode };
+                    this.clickableMeshes.push(child);
+                }
+            });
 
             // 3. 原生超清 DOM 悬牌
             if (this.labelsContainer) {
@@ -741,5 +767,28 @@ class LiuYaoScene3D {
         this.updateLabelsPosition();
     }
 }
+
+
+    onCanvasClick(event) {
+        if (!this.container || !this.camera || this.clickableMeshes.length === 0) return;
+
+        const rect = this.renderer.domElement.getBoundingClientRect();
+        this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+        const intersects = this.raycaster.intersectObjects(this.clickableMeshes, false);
+
+        if (intersects.length > 0) {
+            const hit = intersects[0];
+            if (hit.object && hit.object.userData && hit.object.userData.lineData) {
+                const line = hit.object.userData.lineData;
+                console.log("3D 构件命中爻位:", line);
+                if (typeof window.openYaoDetailDrawer === "function") {
+                    window.openYaoDetailDrawer(line);
+                }
+            }
+        }
+    }
 
 window.LiuYaoScene3D = LiuYaoScene3D;

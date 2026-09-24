@@ -838,3 +838,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+window.openYaoDetailDrawer = openYaoDetailDrawer;
