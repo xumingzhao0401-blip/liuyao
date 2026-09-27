@@ -42,8 +42,10 @@ if os.path.exists(os.path.join(frontend_dir, "assets")):
 
 app.add_middleware(
     CORSMiddleware,
+    # 注意：allow_origins 为通配符 "*" 时，浏览器会拒绝 allow_credentials=True 的组合；
+    # 本项目前端由本服务同源托管，无需跨域携带凭证，故显式关闭 credentials。
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
