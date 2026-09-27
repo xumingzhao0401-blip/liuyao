@@ -172,6 +172,17 @@ def construct_dynamic_prompt(time_info: Dict[str, Any], hex_meta: Dict[str, Any]
     return prompt
 
 # ----------------- 路由接口 -----------------
+@app.get("/api/time")
+async def get_server_time():
+    now = datetime.now()
+    return {
+        "status": "success",
+        "timestamp": now.timestamp(),
+        "server_time": now.isoformat(timespec="seconds"),
+        "timezone": str(now.astimezone().tzinfo),
+    }
+
+
 @app.get("/api/version")
 async def get_version():
     return {"status": "success", "version": VERSION, "build_date": BUILD_DATE}

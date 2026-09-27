@@ -15,7 +15,82 @@ document.addEventListener("DOMContentLoaded", () => {
     initEvents();
     initSettingsForm();
     init3DView();
+    initServerClock();
 });
+
+// ============ 服务器时间同步时钟 ============
+// 与后端 /api/time 对时：offset = 服务器时间 - 本地时间，每秒用 offset 渲染，每分钟重同步纠漂移。
+const SHICEN_ZHI = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+let g_clockOffsetMs = 0;
+let g_clockTZ = undefined;
+let g_clockSynced = false;
+
+function shichenZhi(hour24) {
+    return SHICEN_ZHI[Math.floor(((hour24 % 24) + 1) / 2) % 12];
+}
+
+async function syncServerClock() {
+    try {
+        const resp = await fetch(`${API_BASE}/api/time`);
+        const d = await resp.json();
+        if (d && d.status === "success" && typeof d.timestamp === "number") {
+            g_clockOffsetMs = d.timestamp * 1000 - Date.now();
+            g_clockTZ = d.timezone || undefined;
+            g_clockSynced = true;
+        }
+    } catch (e) { /* 同步失败则保持上次结果，降级为本地时间 */ }
+    renderServerClock();
+}
+
+function renderServerClock() {
+    const el = document.getElementById("server-clock");
+    if (!el) return;
+    const now = new Date(Date.now() + g_clockOffsetMs);
+    const label = g_clockSynced ? "服务器时间" : "本地时间";
+    const tzOpt = g_clockTZ ? { timeZone: g_clockTZ } : {};
+    let dateStr, hour24;
+    try {
+        dateStr = new Intl.DateTimeFormat("zh-CN", Object.assign({
+            year: "numeric", month: "2-digit", day: "2-digit",
+            hour: "2-digit", minute: "2-digit", second: "2-digit",
+            hour12: false, weekday: "short",
+        }, tzOpt)).format(now);
+        hour24 = parseInt(new Intl.DateTimeFormat("en-US", Object.assign(
+            { hour: "numeric", hour12: false }, tzOpt)).format(now), 10);
+        if (isNaN(hour24)) hour24 = now.getHours();
+    } catch (e) {
+        dateStr = now.toLocaleString("zh-CN", { hour12: false });
+        hour24 = now.getHours();
+    }
+    el.textContent = `\u{1F550} ${label} ${dateStr} \u00B7 ${shichenZhi(hour24)}时`;
+}
+
+function initServerClock() {
+    syncServerClock();
+    setInterval(renderServerClock, 1000);
+    setInterval(syncServerClock, 60000);
+}
+
+// ============ 典籍收录状态徽标（诚实标注） ============
+function classicsTextStatus(b) {
+    return b.text_status || (b.has_fulltext ? "full" : "partial");
+}
+function classicsStatusBadge(b) {
+    const status = classicsTextStatus(b);
+    const note = b.source_note
+        ? `<div style="font-size:11px;color:#8b5a00;margin-top:4px;line-height:1.5;">\u26A0\uFE0F ${escapeHtml(b.source_note)}</div>`
+        : "";
+    if (status === "full") {
+        return '<span style="color:#2e7d32; background:#e8f5e9; border:1px solid #a5d6a7; border-radius:3px; padding:1px 6px;">\u{1F4D6} 全文已收录 \u00B7 原文可考</span>';
+    }
+    if (status === "ocr_gaps") {
+        return '<span style="color:#1565c0; background:#e3f2fd; border:1px solid #90caf9; border-radius:3px; padding:1px 6px;">\u{1F50D} 全文收录 \u00B7 待校（含缺字）</span>' + note;
+    }
+    return '<span style="color:#8b5a00; background:#fff8e6; border:1px solid #e0c97a; border-radius:3px; padding:1px 6px;">残本 \u00B7 全文收录中</span>' + note;
+}
+function classicsReadBtnLabel(b) {
+    return classicsTextStatus(b) === "partial" ? "\u{1F4D6} 试读（残本）" : "\u{1F4D6} 阅读全文";
+}
 
 function initEvents() {
     document.getElementById("btn-toss-single").addEventListener("click", tossSingleYao);
@@ -722,12 +797,10 @@ async function openClassicsModal() {
                 </div>
                 <p style="margin: 0; font-size: 12px; color: #5a4f42; line-height: 1.5;">${b.summary}</p>
                 <div style="margin-top: 6px; font-size: 11px;">
-                    ${b.has_fulltext
-                        ? '<span style="color:#2e7d32; background:#e8f5e9; border:1px solid #a5d6a7; border-radius:3px; padding:1px 6px;">📖 全文已收录 · 原文可考</span>'
-                        : '<span style="color:#8b5a00; background:#fff8e6; border:1px solid #e0c97a; border-radius:3px; padding:1px 6px;">残本 · 全文收录中</span>'}
+                    ${classicsStatusBadge(b)}
                 </div>
                 <div style="margin-top: 8px;">
-                    <button class="btn btn-sm" onclick="window.openClassicsReader('${key}')">${b.has_fulltext ? "📖 阅读全文" : "📖 试读（残本）"}</button>
+                    <button class="btn btn-sm" onclick="window.openClassicsReader('${key}')">${classicsReadBtnLabel(b)}</button>
                 </div>
             </div>
         `).join("");

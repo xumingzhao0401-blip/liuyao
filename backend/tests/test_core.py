@@ -415,7 +415,7 @@ class TestClassicsReader:
 class TestVersion:
     def test_version_module(self):
         from app.version import VERSION, BUILD_DATE
-        assert VERSION == "1.4.0"
+        assert VERSION == "1.5.0"
         assert BUILD_DATE == "2026-09-27"
 
     def test_version_footer_in_index(self):
@@ -423,4 +423,65 @@ class TestVersion:
                                  "frontend", "index.html"), encoding="utf-8").read()
         assert 'id="app-version"' in html
         assert "/api/version" in html
-        assert "v1.4.0" in html
+        assert "v1.5.0" in html
+
+
+# ================= 典籍收录诚实标注 =================
+class TestCatalogHonesty:
+    def test_text_status_schema(self):
+        from app.core.classics_kb import CLASSICS_CATALOG
+        assert len(CLASSICS_CATALOG) == 10
+        for key, b in CLASSICS_CATALOG.items():
+            assert b["text_status"] in ("full", "partial", "ocr_gaps"), key
+            if b["text_status"] == "partial":
+                assert b["has_fulltext"] is False, key
+                assert b.get("source_note"), key  # 残本必须有说明
+
+    def test_duanyitianji_partial(self):
+        from app.core.classics_kb import CLASSICS_CATALOG
+        b = CLASSICS_CATALOG["dytj"]
+        assert b["text_status"] == "partial"
+        assert "4、5、6、7、8、19、24、28" in b["source_note"]
+
+    def test_yiyin_ocr_gaps(self):
+        from app.core.classics_kb import CLASSICS_CATALOG
+        b = CLASSICS_CATALOG["yy"]
+        assert b["text_status"] == "ocr_gaps"
+        assert "98" in b["source_note"]
+
+    def test_yimao_partial(self):
+        from app.core.classics_kb import CLASSICS_CATALOG
+        assert CLASSICS_CATALOG["ym"]["text_status"] == "partial"
+
+    def test_reader_notes_surface(self):
+        import sys, os
+        sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+        from app.core.classics_reader import load_book_text
+        from app.core.classics_kb import CLASSICS_CATALOG
+        for key in ("dytj", "yy", "ym"):
+            info = load_book_text(key, CLASSICS_CATALOG[key]["source_file"])
+            assert info["note"], key
+            assert "残本" in info["note"] or "校勘" in info["note"], key
+
+
+# ================= 服务器时间接口 =================
+class TestServerTime:
+    def test_api_time(self):
+        import time
+        sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+        from fastapi.testclient import TestClient
+        from app.main import app
+        r = TestClient(app).get("/api/time").json()
+        assert r["status"] == "success"
+        assert abs(r["timestamp"] - time.time()) < 5
+        assert "timezone" in r and r["timezone"]
+
+    def test_clock_element_in_index(self):
+        html = open(os.path.join(os.path.dirname(__file__), "..", "..",
+                                 "frontend", "index.html"), encoding="utf-8").read()
+        assert 'id="server-clock"' in html
+        js = open(os.path.join(os.path.dirname(__file__), "..", "..",
+                               "frontend", "js", "app.js"), encoding="utf-8").read()
+        assert "/api/time" in js
+        assert "initServerClock" in js
+        assert "classicsStatusBadge" in js
