@@ -451,32 +451,6 @@ async function openLaymanGuideModal() {
     }
 }
 
-// ----------------- 专有名词大白话词典 -----------------
-async function openGlossaryModal() {
-    const modal = document.getElementById("glossary-modal");
-    const grid = document.getElementById("glossary-grid");
-    modal.style.display = "flex";
-    grid.innerHTML = "正在载入专有名词通俗库...";
-
-    try {
-        const resp = await fetch(`${API_BASE}/api/glossary`);
-        const data = await resp.json();
-        grid.innerHTML = "";
-
-        Object.values(data.glossary).forEach(item => {
-            const card = document.createElement("div");
-            card.className = "glossary-card";
-            card.innerHTML = `
-                <div class="glossary-title">📌 ${item.title}</div>
-                <div class="glossary-vernacular">${item.vernacular}</div>
-            `;
-            grid.appendChild(card);
-        });
-    } catch (e) {
-        grid.innerText = `加载失败: ${e.message}`;
-    }
-}
-
 // ----------------- 划词与右键菜单 -----------------
 function handleTextSelection(e) {
     const bubble = document.getElementById("selection-bubble");
@@ -723,7 +697,10 @@ function applyPreset(type) {
 async function openClassicsModal() {
     const modal = document.getElementById("classics-modal");
     const list = document.getElementById("classics-list");
+    const reader = document.getElementById("classics-reader");
     modal.style.display = "flex";
+    if (reader) reader.style.display = "none";
+    list.style.display = "grid";
     list.innerHTML = "<div style='color:#8c6d48; text-align:center; padding:20px;'>典籍档案调阅中...</div>";
 
     try {
@@ -737,7 +714,7 @@ async function openClassicsModal() {
         list.style.overflowY = "auto";
         list.style.padding = "4px";
 
-        list.innerHTML = Object.values(data.catalog).map(b => `
+        list.innerHTML = Object.entries(data.catalog).map(([key, b]) => `
             <div style="background: #fffdfa; border: 1.5px solid #d4c4a8; border-radius: 6px; padding: 10px 12px; box-shadow: 0 2px 5px rgba(50,30,10,0.06);">
                 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px;">
                     <strong style="color: #6a341b; font-size: 14px;">《${b.title}》</strong>
@@ -747,7 +724,10 @@ async function openClassicsModal() {
                 <div style="margin-top: 6px; font-size: 11px;">
                     ${b.has_fulltext
                         ? '<span style="color:#2e7d32; background:#e8f5e9; border:1px solid #a5d6a7; border-radius:3px; padding:1px 6px;">📖 全文已收录 · 原文可考</span>'
-                        : '<span style="color:#8c7355; background:#f5f0e6; border:1px solid #d4c4a8; border-radius:3px; padding:1px 6px;">全文收录中</span>'}
+                        : '<span style="color:#8b5a00; background:#fff8e6; border:1px solid #e0c97a; border-radius:3px; padding:1px 6px;">残本 · 全文收录中</span>'}
+                </div>
+                <div style="margin-top: 8px;">
+                    <button class="btn btn-sm" onclick="window.openClassicsReader('${key}')">${b.has_fulltext ? "📖 阅读全文" : "📖 试读（残本）"}</button>
                 </div>
             </div>
         `).join("");
@@ -755,6 +735,75 @@ async function openClassicsModal() {
         list.innerText = `加载失败: ${e.message}`;
     }
 }
+
+function escapeHtml(s) {
+    return String(s === undefined || s === null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+let g_readerData = null;
+let g_readerIndex = 0;
+
+window.openClassicsReader = async function(bookKey) {
+    const list = document.getElementById("classics-list");
+    const reader = document.getElementById("classics-reader");
+    const body = document.getElementById("reader-body");
+    if (!reader || !body) return;
+    list.style.display = "none";
+    reader.style.display = "block";
+    body.innerHTML = "<div style='text-align:center;color:#8c6d48;padding:30px;'>全文载入中...</div>";
+    try {
+        const resp = await fetch(`${API_BASE}/api/classics/${bookKey}/text`);
+        const res = await resp.json();
+        if (res.status !== "success") throw new Error(res.detail || "载入失败");
+        g_readerData = res;
+        g_readerIndex = 0;
+        document.getElementById("reader-book-title").innerText = `《${res.book.title}》`;
+        const wan = Math.round(res.char_count / 10000 * 10) / 10;
+        document.getElementById("reader-book-meta").innerText =
+            `${res.book.dynasty || ""} · ${res.book.author || ""} · 共${res.chapter_count}章 约${wan}万字`;
+        const noteEl = document.getElementById("reader-note");
+        if (res.note) { noteEl.style.display = "block"; noteEl.innerText = res.note; }
+        else { noteEl.style.display = "none"; }
+        const sel = document.getElementById("reader-chapter-select");
+        sel.innerHTML = res.chapters.map((c, i) => `<option value="${i}">${escapeHtml(c.title)}</option>`).join("");
+        renderReaderChapter();
+    } catch (e) {
+        body.innerHTML = `<div style="text-align:center;color:#a00;padding:30px;">载入失败：${escapeHtml(e.message)}</div>`;
+    }
+};
+
+function renderReaderChapter() {
+    if (!g_readerData) return;
+    const ch = g_readerData.chapters[g_readerIndex];
+    const body = document.getElementById("reader-body");
+    const paras = ch.text.split("\n").map(p => p.trim()).filter(p => p.length > 0);
+    body.innerHTML = `<div style="text-align:center; font-weight:bold; font-size:16px; color:#6a341b; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #e2d6bd;">${escapeHtml(ch.title)}</div>`
+        + paras.map(p => `<p style="margin:0 0 10px; text-indent:2em;">${escapeHtml(p)}</p>`).join("");
+    document.getElementById("reader-chapter-select").value = String(g_readerIndex);
+    document.getElementById("reader-progress").innerText = `第 ${g_readerIndex + 1} / ${g_readerData.chapter_count} 章`;
+    body.scrollTop = 0;
+}
+
+window.readerGoChapter = function(i) {
+    const n = parseInt(i, 10);
+    if (g_readerData && n >= 0 && n < g_readerData.chapter_count) {
+        g_readerIndex = n;
+        renderReaderChapter();
+    }
+};
+window.readerPrevChapter = function() {
+    if (g_readerData && g_readerIndex > 0) { g_readerIndex--; renderReaderChapter(); }
+};
+window.readerNextChapter = function() {
+    if (g_readerData && g_readerIndex < g_readerData.chapter_count - 1) { g_readerIndex++; renderReaderChapter(); }
+};
+window.closeClassicsReader = function() {
+    document.getElementById("classics-reader").style.display = "none";
+    const list = document.getElementById("classics-list");
+    list.style.display = "grid";
+};
 
 function closeModal(id) {
     document.getElementById(id).style.display = "none";
@@ -1052,7 +1101,8 @@ async function openGlossaryModal() {
             const resp = await fetch("/api/glossary");
             const res = await resp.json();
             if (res.status === "success") {
-                g_glossaryData = res.data;
+                const d = res.data !== undefined ? res.data : res.glossary;
+                g_glossaryData = Array.isArray(d) ? d : Object.values(d || {});
             }
         } catch (e) {
             console.error("加载词典数据失败", e);
@@ -1072,9 +1122,9 @@ function renderGlossaryCards(keyword = "") {
     if (keyword.trim()) {
         const kw = keyword.trim().toLowerCase();
         list = list.filter(item => 
-            item.term.toLowerCase().includes(kw) || 
-            item.definition.toLowerCase().includes(kw) || 
-            item.example.toLowerCase().includes(kw)
+            (item.term || "").toLowerCase().includes(kw) || 
+            (item.definition || "").toLowerCase().includes(kw) || 
+            (item.example || "").toLowerCase().includes(kw)
         );
     }
 
@@ -1088,7 +1138,7 @@ function renderGlossaryCards(keyword = "") {
             <div>
                 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; border-bottom: 1px dashed #e8dfd1; padding-bottom: 6px;">
                     <div style="display: flex; align-items: baseline; gap: 8px;">
-                        <strong style="color: #6a341b; font-size: 15px; font-family: serif;">📌 ${item.term}</strong>
+                        <strong style="color: #6a341b; font-size: 15px; font-family: serif;">📌 ${item.term || item.title || "未命名词条"}</strong>
                         <span style="font-size: 11px; color: #8c7355; font-style: italic;">[${item.pinyin}]</span>
                     </div>
                     <span style="font-size: 11px; background: #f3ebdc; color: #7d6348; padding: 1px 6px; border-radius: 3px;">${item.category_name}</span>

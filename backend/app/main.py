@@ -19,6 +19,8 @@ from app.core.hexagram import HexagramResult
 from app.core.najia import NaJiaEngine
 from app.core.time_engine import TimeEngine
 from app.core.classics_kb import EvidenceEngine, CLASSICS_CATALOG
+from app.core.glossary_kb import GLOSSARY_ITEMS
+from app.core.classics_reader import load_book_text
 
 
 
@@ -174,8 +176,25 @@ async def get_classics_catalog():
     return {"status": "success", "catalog": CLASSICS_CATALOG}
 
 @app.get("/api/glossary")
-async def get_beginner_glossary():
-    return {"status": "success", "glossary": BEGINNER_GLOSSARY}
+async def get_glossary():
+    return {"status": "success", "data": GLOSSARY_ITEMS}
+
+
+@app.get("/api/classics/{book_key}/text")
+async def get_classics_text(book_key: str):
+    """典籍全文阅读：按章节返回文本，供电子书式阅读器使用。"""
+    if book_key not in CLASSICS_CATALOG:
+        raise HTTPException(status_code=404, detail="unknown book_key")
+    meta = CLASSICS_CATALOG[book_key]
+    payload = load_book_text(book_key, meta.get("source_file", ""))
+    payload["book"] = {
+        "key": book_key,
+        "title": meta.get("title"),
+        "dynasty": meta.get("dynasty"),
+        "author": meta.get("author"),
+        "has_fulltext": meta.get("has_fulltext"),
+    }
+    return {"status": "success", **payload}
 
 @app.post("/api/divine")
 async def perform_divination(req: DivineRequest):

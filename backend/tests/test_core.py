@@ -349,3 +349,63 @@ class TestClassicsCatalog:
             assert isinstance(v.get("has_fulltext"), bool), key
             for f in ("title", "dynasty", "author", "summary"):
                 assert v.get(f), (key, f)
+
+
+# ================= 词典接口契约（防“undefined/空分类”回归） =================
+class TestGlossaryContract:
+    def test_glossary_items_shape(self):
+        from app.core.glossary_kb import GLOSSARY_ITEMS
+        assert len(GLOSSARY_ITEMS) == 31
+        for i, item in enumerate(GLOSSARY_ITEMS):
+            for f in ("term", "pinyin", "definition", "classic", "example",
+                      "category", "category_name"):
+                assert item.get(f), (i, f)
+
+    def test_glossary_categories_match_frontend_filters(self):
+        from app.core.glossary_kb import GLOSSARY_ITEMS
+        cats = {i["category"] for i in GLOSSARY_ITEMS}
+        assert cats == {"core", "timing", "mutation", "pattern"}
+        for c in cats:
+            assert sum(1 for i in GLOSSARY_ITEMS if i["category"] == c) >= 1
+
+    def test_frontend_single_glossary_impl(self):
+        js = open(os.path.join(os.path.dirname(__file__), "..", "..",
+                               "frontend", "js", "app.js"), encoding="utf-8").read()
+        assert js.count("function openGlossaryModal") == 1
+        assert "res.data" in js  # 与后端 {"status","data"} 契约一致
+
+
+# ================= 典籍全文阅读 =================
+class TestClassicsReader:
+    def test_all_books_split_into_chapters(self):
+        from app.core.classics_kb import CLASSICS_CATALOG
+        from app.core.classics_reader import load_book_text
+        for key, meta in CLASSICS_CATALOG.items():
+            r = load_book_text(key, meta["source_file"])
+            assert r["chapter_count"] >= 1, key
+            assert r["char_count"] > 10000, key
+            for c in r["chapters"]:
+                assert c["title"].strip(), key
+            # 分章不丢正文（仅允许剥离空行带来的微小差异）
+            joined = sum(len(c["text"]) for c in r["chapters"])
+            assert joined >= r["char_count"] * 0.95, key
+
+    def test_chapter_spot_checks(self):
+        from app.core.classics_reader import load_book_text as load
+        zsby = load("zsby", "data/classics/zengshanbuyi.txt")
+        assert any(c["title"] == "八卦章" for c in zsby["chapters"])
+        ym = load("ym", "data/classics/yimao.txt")
+        assert any(c["title"] == "甲子章第一" for c in ym["chapters"])
+        assert ym["chapter_count"] >= 90  # 90 章 + 卷首
+        assert ym["note"] and "占诫章第九十一" in ym["note"]
+        jsyz = load("jsyz", "data/classics/jingshiyizhuan.txt")
+        assert any(c["title"] == "乾上乾下" for c in jsyz["chapters"])
+
+    def test_reader_frontend_wired(self):
+        base = os.path.join(os.path.dirname(__file__), "..", "..", "frontend")
+        js = open(os.path.join(base, "js", "app.js"), encoding="utf-8").read()
+        html = open(os.path.join(base, "index.html"), encoding="utf-8").read()
+        assert "window.openClassicsReader" in js
+        assert "/api/classics/${bookKey}/text" in js
+        assert 'id="classics-reader"' in html
+        assert 'id="reader-chapter-select"' in html

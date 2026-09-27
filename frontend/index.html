@@ -309,6 +309,21 @@
                 <div class="classics-list" id="classics-list">
                     <div style="color:#8c6d48; text-align:center; padding:20px;">典籍档案调阅中...</div>
                 </div>
+                <div id="classics-reader" style="display: none;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+                        <button class="btn btn-sm" onclick="window.closeClassicsReader()">&#8592; 返回书目</button>
+                        <strong id="reader-book-title" style="color: #6a341b; font-size: 15px;"></strong>
+                        <span id="reader-book-meta" style="font-size: 11px; color: #8c7355;"></span>
+                    </div>
+                    <div id="reader-note" style="display: none; font-size: 12px; color: #8b5a00; background: #fff8e6; border: 1px solid #e0c97a; border-radius: 4px; padding: 6px 10px; margin-bottom: 8px; line-height: 1.5;"></div>
+                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap;">
+                        <button class="btn btn-sm" onclick="window.readerPrevChapter()">上一章</button>
+                        <select id="reader-chapter-select" onchange="window.readerGoChapter(this.value)" style="flex: 1; min-width: 160px; padding: 5px 8px; font-size: 13px; border: 1.5px solid #d4c4a8; border-radius: 4px; background: #fff;"></select>
+                        <button class="btn btn-sm" onclick="window.readerNextChapter()">下一章</button>
+                        <span id="reader-progress" style="font-size: 11px; color: #8c7355;"></span>
+                    </div>
+                    <div id="reader-body" style="max-height: 52vh; overflow-y: auto; background: #fffdf6; border: 1px solid #e2d6bd; border-radius: 6px; padding: 18px 20px; font-family: Georgia, 'Songti SC', 'SimSun', serif; font-size: 15px; line-height: 1.9; color: #2e2620;"></div>
+                </div>
             </div>
     </div>
 
