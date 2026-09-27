@@ -1,0 +1,1243 @@
+:root {
+    --primary: #8b3a2b;
+    --primary-hover: #a04332;
+    --wood-solid: #c28854;
+    --wood-fill: #9d6438;
+    --bg-main: #f5f2eb;
+    --panel-bg: #fcfaf7;
+    --border-color: #ded6c9;
+    --text-main: #2b2723;
+    --text-sub: #7a7065;
+    --tag-bg: #efebe4;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.app-container {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+/* 顶部导航 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #dfd5c6;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.header-content h1 {
+    font-size: 24px;
+    color: var(--primary);
+    letter-spacing: 1px;
+}
+
+.header-content .subtitle {
+    font-size: 13px;
+    color: var(--text-sub);
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* 栅格布局 */
+.main-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.panel-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--primary);
+    border-left: 4px solid var(--primary);
+    padding-left: 8px;
+    margin-bottom: 16px;
+}
+
+.panel-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.hex-names-tag {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+/* 表单与按钮 */
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.input-control {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: #fff;
+    font-size: 13px;
+    color: var(--text-main);
+}
+
+.btn {
+    padding: 7px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+}
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-secondary {
+    background: #5d5348;
+    color: #fff;
+}
+
+.btn-outline {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+.btn-outline:hover {
+    background: var(--tag-bg);
+}
+
+/* 摇卦操作箱 */
+.step-divine-box {
+    background: #fcf6ee;
+    border: 1px solid #ebd9c8;
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.step-counter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.step-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.step-dots .dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e3dbce;
+    color: #555;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.step-dots .dot.active {
+    background: var(--primary);
+    color: #fff;
+}
+
+.step-dots .dot.filled {
+    background: var(--wood-fill);
+    color: #fff;
+}
+
+.control-actions-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-group-row {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-sm {
+    padding: 6px 10px;
+    font-size: 12px;
+    flex: 1;
+}
+
+.coin-stage {
+    background: #f5eee4;
+    border-radius: 6px;
+    padding: 14px;
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.stage-info {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-bottom: 8px;
+}
+
+.coins-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.coin {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #b58d59;
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #825f32;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.coin.rolling {
+    animation: rollAnim 0.4s infinite linear;
+}
+
+@keyframes rollAnim {
+    0% { transform: rotateY(0deg) scale(1); }
+    50% { transform: rotateY(180deg) scale(1.15); }
+    100% { transform: rotateY(360deg) scale(1); }
+}
+
+.toss-result-text {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+/* 八字面板 */
+.bazi-board {
+    background: #faf6f0;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.classical-date-display {
+    background: #efebe2;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: bold;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    border-left: 3px solid var(--primary);
+}
+
+.bazi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.bazi-col {
+    background: #fff;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ebd9c8;
+}
+
+.bazi-col small {
+    display: block;
+    font-size: 11px;
+    color: var(--text-sub);
+}
+
+.bazi-col strong {
+    font-size: 13px;
+    color: var(--text-main);
+}
+
+.status-summary {
+    display: flex;
+    justify-content: space-around;
+    font-size: 12px;
+}
+
+.badge {
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+.badge-warn { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+.badge-danger { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+.badge-info { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
+
+/* 2D 盘面 */
+.hexagram-board {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 480px;
+    justify-content: center;
+}
+
+.empty-tip {
+    text-align: center;
+    color: var(--text-sub);
+    padding: 80px 20px;
+    font-size: 14px;
+}
+
+.yao-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.col-fushen { width: 60px; font-size: 12px; color: #888; }
+.col-sixgod { width: 44px; font-size: 13px; font-weight: bold; color: var(--primary); }
+.col-shiying { width: 46px; }
+.mark-shi { background: #e6b043; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; }
+.mark-ying { background: #4da6ff; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; }
+
+.col-wood { width: 140px; display: flex; justify-content: center; }
+
+
+
+
+.col-mark { width: 24px; text-align: center; font-weight: bold; color: #d32f2f; }
+.col-detail { flex: 1; display: flex; gap: 8px; align-items: center; font-size: 12px; flex-wrap: wrap; }
+.tag-change { background: #fbe9e7; color: #d84315; padding: 1px 6px; border-radius: 3px; }
+.tag-status { background: #efebe4; color: #555; padding: 1px 6px; border-radius: 3px; }
+.tag-timing { background: #eef2fa; color: #1a4f94; padding: 1px 6px; border-radius: 3px; }
+
+/* ================== 3D 营造视界 (重点修复：坚决不塌陷) ================== */
+.viewport-3d {
+    display: block;
+    width: 100% !important;
+    height: 640px !important;
+    min-height: 640px !important;
+    position: relative !important;
+    background: radial-gradient(circle at 50% 45%, #2a2520 0%, #100e0d 100%);
+    border-radius: 8px;
+    border: 1px solid #4a3e35;
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.95);
+    overflow: hidden !important;
+}
+
+.viewport-3d canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    outline: none;
+}
+
+.viewport-3d-hud {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #d1c1ad;
+    pointer-events: none;
+    z-index: 10;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.95);
+}
+
+.btn-hud {
+    pointer-events: auto;
+    background: rgba(46, 38, 33, 0.85);
+    border: 1px solid #735d4d;
+    color: #eedcc9;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+}
+.btn-hud:hover {
+    background: #8b4513;
+    color: #fff;
+}
+
+/* 典籍卡片与弹窗 */
+.evidence-section { margin-top: 20px; }
+.evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 14px; }
+.evidence-card { background: #fff; border: 1px solid var(--border-color); border-radius: 6px; padding: 14px; }
+.evidence-header { display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); margin-bottom: 6px; font-size: 13px; }
+.evidence-quote { font-style: italic; background: #faf7f2; padding: 8px 10px; border-left: 3px solid var(--primary); margin: 6px 0; font-size: 13px; color: #444; }
+.evidence-desc { font-size: 12px; color: #666; }
+
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+.modal-content { background: #fff; border-radius: 8px; width: 500px; max-width: 90%; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; }
+.modal-large { width: 850px; }
+.modal-header { padding: 14px 18px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: #faf7f2; }
+.modal-header h3 { font-size: 15px; color: var(--primary); }
+.modal-close { font-size: 22px; cursor: pointer; color: #888; }
+.modal-body { padding: 18px; overflow-y: auto; flex: 1; }
+
+.selection-bubble { position: absolute; z-index: 3000; transform: translate(-50%, -120%); }
+.bubble-btn { background: #2e7d32; color: #fff; border: none; border-radius: 20px; padding: 5px 12px; font-size: 12px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.25); }
+
+.custom-context-menu { position: absolute; z-index: 3000; background: #fff; border: 1px solid var(--border-color); box-shadow: 0 4px 14px rgba(0,0,0,0.15); border-radius: 6px; min-width: 180px; overflow: hidden; }
+.context-menu-item { padding: 9px 14px; font-size: 13px; cursor: pointer; color: var(--text-main); }
+.context-menu-item:hover { background: var(--tag-bg); color: var(--primary); }
+
+.layman-quick-bar { margin-top: 14px; background: #eef7ed; border-left: 4px solid #2e7d32; padding: 10px 14px; border-radius: 4px; font-size: 13px; color: #1e4620; }
+.glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+.glossary-card { background: #faf7f2; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 14px; }
+.glossary-title { font-size: 14px; font-weight: bold; color: var(--primary); margin-bottom: 6px; }
+.glossary-vernacular { font-size: 13px; color: #4a443e; line-height: 1.6; }
+.layman-article { font-size: 14px; line-height: 1.8; color: #2b2724; white-space: pre-wrap; background: #faf8f5; padding: 16px; border-radius: 6px; border: 1px solid #ebd9c8; }
+
+/* 解决鼠标拖拽被 HUD 拦截的问题 */
+.viewport-3d-hud {
+    pointer-events: none !important;
+}
+
+.viewport-3d-hud * {
+    pointer-events: none !important;
+}
+
+.viewport-3d-hud button {
+    pointer-events: auto !important;
+}
+
+/* 3D 视口光标手型 */
+.viewport-3d canvas {
+    cursor: grab;
+}
+.viewport-3d canvas.pointer {
+    cursor: pointer !important;
+}
+
+/* 3D 构件详情右侧二级抽屉 */
+.drawer-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 420px;
+    max-width: 90vw;
+    height: 100%;
+    background: rgba(254, 252, 248, 0.96);
+    backdrop-filter: blur(12px);
+    box-shadow: -8px 0 28px rgba(0, 0, 0, 0.25);
+    border-left: 1px solid #ebd9c8;
+    z-index: 2500;
+    display: flex;
+    flex-direction: column;
+    animation: drawerSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes drawerSlideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+.drawer-header {
+    padding: 18px 20px;
+    background: #f7efe4;
+    border-bottom: 1px solid #ebd9c8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.drawer-title-group h3 {
+    font-size: 17px;
+    color: var(--primary);
+    margin-top: 4px;
+}
+
+.drawer-badge {
+    font-size: 11px;
+    background: #8b3a2b;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.drawer-close {
+    background: transparent;
+    border: none;
+    font-size: 26px;
+    line-height: 1;
+    color: #888;
+    cursor: pointer;
+}
+.drawer-close:hover {
+    color: #333;
+}
+
+.drawer-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.drawer-section {
+    margin-bottom: 20px;
+}
+
+.drawer-section h4 {
+    font-size: 13px;
+    color: #5c4e40;
+    margin-bottom: 8px;
+    border-left: 3px solid #b87b44;
+    padding-left: 6px;
+}
+
+.drawer-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.drawer-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #38322b;
+    background: #fcf8f2;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ebd9c8;
+}
+
+.drawer-box {
+    font-size: 12px;
+    color: #4a3e35;
+    background: #f4f6fa;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #dce4f0;
+    line-height: 1.6;
+}
+
+.drawer-actions {
+    margin-top: 10px;
+}
+
+/* 先锋国风深色视界修饰 */
+.viewport-3d {
+    background: radial-gradient(circle at 50% 40%, #1e1b18 0%, #080706 100%) !important;
+    border: 1px solid #3d342a !important;
+}
+
+.viewport-3d-hud {
+    background: rgba(18, 16, 14, 0.65);
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 215, 120, 0.15);
+    color: #eedcc9 !important;
+}
+
+.btn-hud {
+    background: rgba(180, 115, 0, 0.45) !important;
+    border: 1px solid #cca870 !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+}
+.btn-hud:hover {
+    background: #b37400 !important;
+}
+
+/* 3D 屏幕投影原生 DOM 矢量牌位层 (彻底杜绝字迹发虚) */
+.labels-3d-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.yao-label-tag {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, "Noto Serif SC", "PingFang SC", "Microsoft YaHei", serif;
+    padding: 4px 10px;
+    border-radius: 4px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    user-select: none;
+}
+
+.yao-label-tag:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 0 14px rgba(255, 215, 120, 0.6);
+}
+
+/* 左侧六亲纳甲木雕牌 */
+.yao-label-left {
+    background: rgba(22, 19, 16, 0.92);
+    border: 1px solid #9c7b4f;
+    color: #f0e6d6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* 右侧世应大标牌位 */
+.yao-label-right {
+    background: rgba(26, 22, 18, 0.92);
+    border: 1px solid #cca870;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.yao-label-shi {
+    background: linear-gradient(135deg, #a86b00 0%, #d48b00 100%) !important;
+    border: 1px solid #ffe58f !important;
+    color: #fff !important;
+    font-weight: bold;
+}
+.yao-label-ying {
+    background: linear-gradient(135deg, #10529e 0%, #1a73e8 100%) !important;
+    border: 1px solid #adc6ff !important;
+    color: #fff !important;
+    font-weight: bold;
+}
+
+/* ================= 拟真乾隆通宝 2D 钱币质感 ================= */
+.coins-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 14px 0 10px 0;
+}
+
+.coin {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    /* 青铜鎏金包浆底色 */
+    background: radial-gradient(circle at 35% 35%, #cca562 0%, #a67c3b 55%, #6e4e20 100%);
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35), inset 0 2px 4px rgba(255, 235, 170, 0.6), inset 0 -2px 4px rgba(40, 25, 10, 0.8);
+    border: 3px solid #825f28;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffd88a;
+    font-family: "STKaiti", "KaiTi", "SimSun", serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9), 0 0 1px #fff;
+    cursor: default;
+    transition: transform 0.2s ease;
+}
+
+/* 钱币中间方孔与凸起内郭 */
+.coin::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #2a2015;
+    border: 2px solid #a87e3c;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.9), 0 0 2px rgba(255,230,160,0.5);
+}
+
+/* 钱币文字浮雕效果 */
+.coin span {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.coin .coin-text-top { top: 3px; }
+.coin .coin-text-bottom { bottom: 3px; }
+.coin .coin-text-right { right: 5px; }
+.coin .coin-text-left { left: 5px; }
+
+/* 判定字面与背面状态 */
+.coin-front {
+    border-color: #8c682c;
+}
+.coin-back {
+    background: radial-gradient(circle at 35% 35%, #bfa063 0%, #8c6a32 60%, #523916 100%);
+}
+
+/* ================= 东方写意水墨画图层与光标拖尾 ================= */
+
+/* 1. 远山水墨画背景 (置于底层，绝对不拦截任何鼠标事件) */
+.ink-bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+/* 2. 跟随光标水墨毛笔拖尾 (置于顶层，穿透点击) */
+.ink-trail-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* 3. 增强宣纸半透明质感，使背景山水画若隐若现透出 */
+body {
+    background-color: #f7f3ec !important;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.sidebar, .main-content, .card {
+    background: rgba(254, 252, 248, 0.82) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(220, 205, 185, 0.65) !important;
+    box-shadow: 0 8px 24px rgba(35, 25, 15, 0.04) !important;
+}
+
+/* 4. 3D 营造视界框体融入水墨宣纸沉浸意境 */
+.viewport-3d {
+    background: radial-gradient(circle at 50% 45%, #181614 0%, #0c0b0a 100%) !important;
+    border: 1px solid #3d352b !important;
+    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* 确保页面主体与卡片不遮挡背景水墨山峦 */
+html, body {
+    background: transparent !important;
+}
+
+.container, .main-layout {
+    position: relative;
+    z-index: 10;
+}
+
+.card, .sidebar, .panel {
+    background: rgba(254, 252, 248, 0.78) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(215, 198, 175, 0.65) !important;
+}
+
+
+/* 《千里江山图》全屏高清青绿山水背景 (SVG 矢量无损源) */
+.landscape-bg-art {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background: 
+        linear-gradient(to bottom, rgba(248, 244, 235, 0.45) 0%, rgba(248, 244, 235, 0.2) 40%, rgba(248, 244, 235, 0.7) 100%),
+        url('/static/assets/landscape_bg.svg') no-repeat center bottom / cover !important;
+    opacity: 0.95;
+}
+
+/* 顶部标题与框架导航按钮加固：彻底消除发灰发虚 */
+.header h1, .app-title, .title {
+    color: #1f150b !important;
+    font-weight: 800 !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9) !important;
+    opacity: 1 !important;
+}
+
+.nav-btn, .header .btn, .btn-secondary, .btn-outline, button {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+.nav-btn, .header .btn {
+    background: #ffffff !important;
+    color: #2b1d0c !important;
+    border: 1.5px solid #8f6527 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 5px rgba(50, 35, 20, 0.15) !important;
+}
+
+.nav-btn:hover, .header .btn:hover {
+    background: #fdf5e8 !important;
+    color: #8c3510 !important;
+    border-color: #8c3510 !important;
+}
+
+/* 保证卡片有足够底色不被背景图反噬 */
+.card, .sidebar, .panel {
+    background: rgba(255, 253, 249, 0.94) !important;
+    border: 1.5px solid #cbb69b !important;
+    box-shadow: 0 8px 24px rgba(40, 25, 10, 0.07) !important;
+}
+
+/* ================= 根除按钮发虚 + 呈现千里江山图 ================= */
+
+/* 1. 千里江山图全屏真实显色层（置于页面最底，不再被覆盖） */
+.landscape-bg-art {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: -99 !important;
+    pointer-events: none !important;
+    background-image: url('/static/assets/landscape_bg.svg') !important;
+    background-position: center bottom !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    opacity: 1 !important;
+    display: block !important;
+}
+
+/* 2. 确保页面底色完全透明，让千里江山图无阻碍透出 */
+html, body {
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+/* 3. 彻底修复顶栏发虚发灰：强制实体高对比度 */
+header, .header, .top-bar, .navbar {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+}
+
+/* 顶栏主标题与副标题：深黛焦墨色 */
+.header h1, .header .title, .app-title, h1 {
+    color: #1a1208 !important;
+    font-weight: 900 !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(255, 250, 240, 0.8) !important;
+    opacity: 1 !important;
+}
+
+.header p, .header .subtitle, .app-subtitle {
+    color: #4a341e !important;
+    font-weight: 700 !important;
+    opacity: 1 !important;
+}
+
+/* 顶栏所有功能按钮（强制深色金边实体卡片样式，拒绝任何发灰） */
+.header button, 
+.header-actions button, 
+.header .btn, 
+.header-actions .btn,
+button.btn-outline,
+button.btn-secondary {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    background: #ffffff !important;
+    color: #2b1807 !important;
+    border: 1.8px solid #916833 !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    box-shadow: 0 2px 6px rgba(45, 30, 10, 0.18) !important;
+    text-shadow: none !important;
+    cursor: pointer !important;
+}
+
+/* 按钮悬停状态：深赭金底色 + 白字 */
+.header button:hover, 
+.header-actions button:hover, 
+.header .btn:hover,
+button.btn-outline:hover {
+    background: #8f3815 !important;
+    color: #ffffff !important;
+    border-color: #6b250a !important;
+    box-shadow: 0 4px 12px rgba(143, 56, 21, 0.3) !important;
+    transform: translateY(-1px);
+}
+
+/* 4. 左侧排盘卡片略带宣纸白，保证文字阅读清晰 */
+.card, .sidebar, .panel, .left-panel {
+    background: rgba(255, 253, 249, 0.94) !important;
+    border: 1.5px solid #cbba9e !important;
+    box-shadow: 0 8px 24px rgba(35, 25, 15, 0.08) !important;
+}
+
+
+/* 《千里江山图》Base64 绝对内嵌背景，彻底消除白屏 */
+.landscape-bg-art {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: -999 !important;
+    pointer-events: none !important;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIwIDEwODAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJwYXBlckdyYWQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YyZWFkYiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2U4ZGNiZSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkYWM4YTUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InNoaXFpbmdHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzNTYxN2QiIHN0b3Atb3BhY2l0eT0iMC44OCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxODM2NDgiIHN0b3Atb3BhY2l0eT0iMC45NiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2hpbHVHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMyNDc4NTgiIHN0b3Atb3BhY2l0eT0iMC45NCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwZjQ0MzEiIHN0b3Atb3BhY2l0eT0iMC45OSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iamlhb21vR3JhZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjM2EyZjI0IiBzdG9wLW9wYWNpdHk9IjAuOTUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWYxODEyIiBzdG9wLW9wYWNpdHk9IjEuMCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iY2xvdWRHcmFkIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjVlZGUwIiBzdG9wLW9wYWNpdHk9IjAuNjUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjVlZGUwIiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxOTIwIiBoZWlnaHQ9IjEwODAiIGZpbGw9InVybCgjcGFwZXJHcmFkKSIvPgogIDxwYXRoIGQ9Ik0gMCAxMDgwIEwgMCA0MzAgTCAwLjAgNTQ0LjggTCAxNi4wIDU0Ni41IEwgMzIuMCA1NDcuNyBMIDQ4LjAgNTQ4LjIgTCA2NC4wIDU0Ny45IEwgODAuMCA1NDYuNSBMIDk2LjAgNTQzLjkgTCAxMTIuMCA1NDAuMiBMIDEyOC4wIDUzNS40IEwgMTQ0LjAgNTI5LjUgTCAxNjAuMCA1MjIuOCBMIDE3Ni4wIDUxNS40IEwgMTkyLjAgNTA3LjYgTCAyMDguMCA0OTkuNyBMIDIyNC4wIDQ5Mi4wIEwgMjQwLjAgNDg0LjkgTCAyNTYuMCA0NzguNSBMIDI3Mi4wIDQ3My4zIEwgMjg4LjAgNDY5LjQgTCAzMDQuMCA0NjcuMCBMIDMyMC4wIDQ2Ni4zIEwgMzM2LjAgNDY3LjEgTCAzNTIuMCA0NjkuNSBMIDM2OC4wIDQ3My4zIEwgMzg0LjAgNDc4LjMgTCA0MDAuMCA0ODQuMyBMIDQxNi4wIDQ5MS4wIEwgNDMyLjAgNDk3LjkgTCA0NDguMCA1MDQuNyBMIDQ2NC4wIDUxMS4wIEwgNDgwLjAgNTE2LjUgTCA0OTYuMCA1MjAuNyBMIDUxMi4wIDUyMy41IEwgNTI4LjAgNTI0LjYgTCA1NDQuMCA1MjMuOCBMIDU2MC4wIDUyMS4wIEwgNTc2LjAgNTE2LjIgTCA1OTIuMCA1MDkuNSBMIDYwOC4wIDUwMS4xIEwgNjI0LjAgNDkxLjEgTCA2NDAuMCA0NzkuOCBMIDY1Ni4wIDQ2Ny41IEwgNjcyLjAgNDU0LjYgTCA2ODguMCA0NDEuMyBMIDcwNC4wIDQyOC4xIEwgNzIwLjAgNDE1LjEgTCA3MzYuMCA0MDIuOCBMIDc1Mi4wIDM5MS4yIEwgNzY4LjAgMzgwLjUgTCA3ODQuMCAzNzAuOSBMIDgwMC4wIDM2Mi4zIEwgODE2LjAgMzU0LjcgTCA4MzIuMCAzNDguMSBMIDg0OC4wIDM0Mi4xIEwgODY0LjAgMzM2LjggTCA4ODAuMCAzMzEuOCBMIDg5Ni4wIDMyNi45IEwgOTEyLjAgMzIxLjkgTCA5MjguMCAzMTYuNyBMIDk0NC4wIDMxMS4xIEwgOTYwLjAgMzA0LjkgTCA5NzYuMCAyOTguMSBMIDk5Mi4wIDI5MC43IEwgMTAwOC4wIDI4Mi44IEwgMTAyNC4wIDI3NC42IEwgMTA0MC4wIDI2Ni4yIEwgMTA1Ni4wIDI1OC4wIEwgMTA3Mi4wIDI1MC4wIEwgMTA4OC4wIDI0Mi44IEwgMTEwNC4wIDIzNi42IEwgMTEyMC4wIDIzMS44IEwgMTEzNi4wIDIyOC42IEwgMTE1Mi4wIDIyNy4zIEwgMTE2OC4wIDIyOC4wIEwgMTE4NC4wIDIzMS4wIEwgMTIwMC4wIDIzNi4zIEwgMTIxNi4wIDI0My44IEwgMTIzMi4wIDI1My41IEwgMTI0OC4wIDI2NS4yIEwgMTI2NC4wIDI3OC42IEwgMTI4MC4wIDI5My40IEwgMTI5Ni4wIDMwOS4zIEwgMTMxMi4wIDMyNS45IEwgMTMyOC4wIDM0Mi43IEwgMTM0NC4wIDM1OS40IEwgMTM2MC4wIDM3NS42IEwgMTM3Ni4wIDM5MC45IEwgMTM5Mi4wIDQwNS4wIEwgMTQwOC4wIDQxNy42IEwgMTQyNC4wIDQyOC43IEwgMTQ0MC4wIDQzOC4xIEwgMTQ1Ni4wIDQ0NS44IEwgMTQ3Mi4wIDQ1MS45IEwgMTQ4OC4wIDQ1Ni40IEwgMTUwNC4wIDQ1OS43IEwgMTUyMC4wIDQ2MS45IEwgMTUzNi4wIDQ2My4zIEwgMTU1Mi4wIDQ2NC4yIEwgMTU2OC4wIDQ2NC45IEwgMTU4NC4wIDQ2NS42IEwgMTYwMC4wIDQ2Ni42IEwgMTYxNi4wIDQ2OC4xIEwgMTYzMi4wIDQ3MC4zIEwgMTY0OC4wIDQ3My4xIEwgMTY2NC4wIDQ3Ni43IEwgMTY4MC4wIDQ4MS4wIEwgMTY5Ni4wIDQ4NS44IEwgMTcxMi4wIDQ5MS4xIEwgMTcyOC4wIDQ5Ni41IEwgMTc0NC4wIDUwMi4wIEwgMTc2MC4wIDUwNy4yIEwgMTc3Ni4wIDUxMS44IEwgMTc5Mi4wIDUxNS44IEwgMTgwOC4wIDUxOC43IEwgMTgyNC4wIDUyMC42IEwgMTg0MC4wIDUyMS4zIEwgMTg1Ni4wIDUyMC43IEwgMTg3Mi4wIDUxOC45IEwgMTg4OC4wIDUxNi4xIEwgMTkwNC4wIDUxMi4yIEwgMTkyMC4wIDUwNy43IEwgMTkyMCAxMDgwIFoiIGZpbGw9IiM5MGFlYTIiIG9wYWNpdHk9IjAuNTUiLz4KICA8cGF0aCBkPSJNIDAgMTA4MCBMIDAgNTQwIEwgMC4wIDU2OC4zIEwgMTYuMCA1NzMuOSBMIDMyLjAgNTc5LjUgTCA0OC4wIDU4NC4xIEwgNjQuMCA1ODYuOCBMIDgwLjAgNTg3LjAgTCA5Ni4wIDU4NC40IEwgMTEyLjAgNTc5LjAgTCAxMjguMCA1NzEuMSBMIDE0NC4wIDU2MS40IEwgMTYwLjAgNTUwLjUgTCAxNzYuMCA1MzkuMyBMIDE5Mi4wIDUyOC43IEwgMjA4LjAgNTE5LjQgTCAyMjQuMCA1MTIuMCBMIDI0MC4wIDUwNi41IEwgMjU2LjAgNTAzLjEgTCAyNzIuMCA1MDEuMyBMIDI4OC4wIDUwMC41IEwgMzA0LjAgNDk5LjggTCAzMjAuMCA0OTguNCBMIDMzNi4wIDQ5NS4yIEwgMzUyLjAgNDg5LjUgTCAzNjguMCA0ODAuNiBMIDM4NC4wIDQ2OC4xIEwgNDAwLjAgNDUyLjEgTCA0MTYuMCA0MzIuOSBMIDQzMi4wIDQxMS4zIEwgNDQ4LjAgMzg4LjMgTCA0NjQuMCAzNjUuMSBMIDQ4MC4wIDM0My4wIEwgNDk2LjAgMzIzLjQgTCA1MTIuMCAzMDcuNiBMIDUyOC4wIDI5Ni40IEwgNTQ0LjAgMjkwLjYgTCA1NjAuMCAyOTAuNSBMIDU3Ni4wIDI5Ni4wIEwgNTkyLjAgMzA2LjcgTCA2MDguMCAzMjEuNyBMIDYyNC4wIDM0MC4xIEwgNjQwLjAgMzYwLjYgTCA2NTYuMCAzODIuMiBMIDY3Mi4wIDQwMy43IEwgNjg4LjAgNDI0LjMgTCA3MDQuMCA0NDMuMyBMIDcyMC4wIDQ2MC4zIEwgNzM2LjAgNDc1LjUgTCA3NTIuMCA0ODguOSBMIDc2OC4wIDUwMS4zIEwgNzg0LjAgNTEzLjIgTCA4MDAuMCA1MjUuNCBMIDgxNi4wIDUzOC42IEwgODMyLjAgNTUzLjMgTCA4NDguMCA1NjkuOCBMIDg2NC4wIDU4OC4yIEwgODgwLjAgNjA4LjIgTCA4OTYuMCA2MjkuMyBMIDkxMi4wIDY1MC41IEwgOTI4LjAgNjcwLjkgTCA5NDQuMCA2ODkuNCBMIDk2MC4wIDcwNC45IEwgOTc2LjAgNzE2LjQgTCA5OTIuMCA3MjMuNCBMIDEwMDguMCA3MjUuNCBMIDEwMjQuMCA3MjIuNCBMIDEwNDAuMCA3MTQuOCBMIDEwNTYuMCA3MDMuMiBMIDEwNzIuMCA2ODguNyBMIDEwODguMCA2NzIuNiBMIDExMDQuMCA2NTYuMSBMIDExMjAuMCA2NDAuNSBMIDExMzYuMCA2MjcuMCBMIDExNTIuMCA2MTYuNiBMIDExNjguMCA2MDkuOCBMIDExODQuMCA2MDcuMCBMIDEyMDAuMCA2MDguMCBMIDEyMTYuMCA2MTIuMyBMIDEyMzIuMCA2MTkuMiBMIDEyNDguMCA2MjcuOCBMIDEyNjQuMCA2MzYuOCBMIDEyODAuMCA2NDUuMyBMIDEyOTYuMCA2NTIuMiBMIDEzMTIuMCA2NTcuMCBMIDEzMjguMCA2NTkuMCBMIDEzNDQuMCA2NTguMSBMIDEzNjAuMCA2NTQuNSBMIDEzNzYuMCA2NDguNiBMIDEzOTIuMCA2NDEuMSBMIDE0MDguMCA2MzIuOCBMIDE0MjQuMCA2MjQuNiBMIDE0NDAuMCA2MTcuMSBMIDE0NTYuMCA2MTEuMSBMIDE0NzIuMCA2MDYuOCBMIDE0ODguMCA2MDQuMyBMIDE1MDQuMCA2MDMuMyBMIDE1MjAuMCA2MDMuMyBMIDE1MzYuMCA2MDMuNSBMIDE1NTIuMCA2MDIuOSBMIDE1NjguMCA2MDAuNSBMIDE1ODQuMCA1OTUuNCBMIDE2MDAuMCA1ODYuNyBMIDE2MTYuMCA1NzMuOCBMIDE2MzIuMCA1NTYuNiBMIDE2NDguMCA1MzUuMSBMIDE2NjQuMCA1MTAuMCBMIDE2ODAuMCA0ODEuOSBMIDE2OTYuMCA0NTIuMiBMIDE3MTIuMCA0MjIuMCBMIDE3MjguMCAzOTIuOCBMIDE3NDQuMCAzNjYuMCBMIDE3NjAuMCAzNDIuOCBMIDE3NzYuMCAzMjQuMCBMIDE3OTIuMCAzMTAuNCBMIDE4MDguMCAzMDIuMiBMIDE4MjQuMCAyOTkuMSBMIDE4NDAuMCAzMDAuOCBMIDE4NTYuMCAzMDYuNSBMIDE4NzIuMCAzMTUuMSBMIDE4ODguMCAzMjUuNyBMIDE5MDQuMCAzMzcuMiBMIDE5MjAuMCAzNDguNyBMIDE5MjAgMTA4MCBaIiBmaWxsPSJ1cmwoI3NoaXFpbmdHcmFkKSIgb3BhY2l0eT0iMC44NSIvPgogIDxwYXRoIGQ9Ik0gMCAxMDgwIEwgMCA2NzAgTCAwLjAgNTg5LjkgTCAxNi4wIDU5OC44IEwgMzIuMCA2MDYuMiBMIDQ4LjAgNjExLjMgTCA2NC4wIDYxMy42IEwgODAuMCA2MTIuNiBMIDk2LjAgNjA4LjAgTCAxMTIuMCA1OTkuOSBMIDEyOC4wIDU4OC42IEwgMTQ0LjAgNTc0LjQgTCAxNjAuMCA1NTcuOSBMIDE3Ni4wIDU0MC4xIEwgMTkyLjAgNTIxLjYgTCAyMDguMCA1MDMuNSBMIDIyNC4wIDQ4Ni42IEwgMjQwLjAgNDcxLjggTCAyNTYuMCA0NTkuOCBMIDI3Mi4wIDQ1MS4wIEwgMjg4LjAgNDQ1LjggTCAzMDQuMCA0NDQuNCBMIDMyMC4wIDQ0Ni42IEwgMzM2LjAgNDUyLjEgTCAzNTIuMCA0NjAuNSBMIDM2OC4wIDQ3MS4zIEwgMzg0LjAgNDgzLjcgTCA0MDAuMCA0OTcuMiBMIDQxNi4wIDUxMS4wIEwgNDMyLjAgNTI0LjYgTCA0NDguMCA1MzcuNyBMIDQ2NC4wIDU0OS44IEwgNDgwLjAgNTYwLjkgTCA0OTYuMCA1NzEuMCBMIDUxMi4wIDU4MC41IEwgNTI4LjAgNTg5LjcgTCA1NDQuMCA1OTkuMCBMIDU2MC4wIDYwOS4wIEwgNTc2LjAgNjIwLjMgTCA1OTIuMCA2MzMuNCBMIDYwOC4wIDY0OC42IEwgNjI0LjAgNjY2LjMgTCA2NDAuMCA2ODYuNSBMIDY1Ni4wIDcwOS4xIEwgNjcyLjAgNzMzLjkgTCA2ODguMCA3NjAuNCBMIDcwNC4wIDc4Ny44IEwgNzIwLjAgODE1LjQgTCA3MzYuMCA4NDIuMyBMIDc1Mi4wIDg2Ny42IEwgNzY4LjAgODkwLjQgTCA3ODQuMCA5MDkuOSBMIDgwMC4wIDkyNS41IEwgODE2LjAgOTM2LjUgTCA4MzIuMCA5NDIuOSBMIDg0OC4wIDk0NC40IEwgODY0LjAgOTQxLjQgTCA4ODAuMCA5MzQuMiBMIDg5Ni4wIDkyMy4zIEwgOTEyLjAgOTA5LjYgTCA5MjguMCA4OTQuMCBMIDk0NC4wIDg3Ny4yIEwgOTYwLjAgODYwLjEgTCA5NzYuMCA4NDMuNyBMIDk5Mi4wIDgyOC41IEwgMTAwOC4wIDgxNS4wIEwgMTAyNC4wIDgwMy43IEwgMTA0MC4wIDc5NC42IEwgMTA1Ni4wIDc4Ny43IEwgMTA3Mi4wIDc4Mi43IEwgMTA4OC4wIDc3OS4zIEwgMTEwNC4wIDc3Ni44IEwgMTEyMC4wIDc3NC43IEwgMTEzNi4wIDc3Mi40IEwgMTE1Mi4wIDc2OS40IEwgMTE2OC4wIDc2NS4yIEwgMTE4NC4wIDc1OS40IEwgMTIwMC4wIDc1MS44IEwgMTIxNi4wIDc0Mi42IEwgMTIzMi4wIDczMS44IEwgMTI0OC4wIDcxOS44IEwgMTI2NC4wIDcwNy4wIEwgMTI4MC4wIDY5NC4yIEwgMTI5Ni4wIDY4MS45IEwgMTMxMi4wIDY3MC43IEwgMTMyOC4wIDY2MS4zIEwgMTM0NC4wIDY1NC4xIEwgMTM2MC4wIDY0OS42IEwgMTM3Ni4wIDY0Ny44IEwgMTM5Mi4wIDY0OC44IEwgMTQwOC4wIDY1Mi4yIEwgMTQyNC4wIDY1Ny43IEwgMTQ0MC4wIDY2NC43IEwgMTQ1Ni4wIDY3Mi40IEwgMTQ3Mi4wIDY4MC4xIEwgMTQ4OC4wIDY4Ni43IEwgMTUwNC4wIDY5MS42IEwgMTUyMC4wIDY5NC4wIEwgMTUzNi4wIDY5My4xIEwgMTU1Mi4wIDY4OC43IEwgMTU2OC4wIDY4MC41IEwgMTU4NC4wIDY2OC41IEwgMTYwMC4wIDY1Mi44IEwgMTYxNi4wIDYzNC4wIEwgMTYzMi4wIDYxMi43IEwgMTY0OC4wIDU4OS43IEwgMTY2NC4wIDU2NS44IEwgMTY4MC4wIDU0MS45IEwgMTY5Ni4wIDUxOC45IEwgMTcxMi4wIDQ5Ny43IEwgMTcyOC4wIDQ3OC45IEwgMTc0NC4wIDQ2My4wIEwgMTc2MC4wIDQ1MC40IEwgMTc3Ni4wIDQ0MS4xIEwgMTc5Mi4wIDQzNS4yIEwgMTgwOC4wIDQzMi4zIEwgMTgyNC4wIDQzMi4wIEwgMTg0MC4wIDQzMy45IEwgMTg1Ni4wIDQzNy4yIEwgMTg3Mi4wIDQ0MS41IEwgMTg4OC4wIDQ0Ni4xIEwgMTkwNC4wIDQ1MC42IEwgMTkyMC4wIDQ1NC42IEwgMTkyMCAxMDgwIFoiIGZpbGw9InVybCgjc2hpbHVHcmFkKSIgb3BhY2l0eT0iMC45MiIvPgogIDxwYXRoIGQ9Ik0gMCAxMDgwIEwgMCA2NzAgTCAwLjAgNTg5LjkgTCAxNi4wIDU5OC44IEwgMzIuMCA2MDYuMiBMIDQ4LjAgNjExLjMgTCA2NC4wIDYxMy42IEwgODAuMCA2MTIuNiBMIDk2LjAgNjA4LjAgTCAxMTIuMCA1OTkuOSBMIDEyOC4wIDU4OC42IEwgMTQ0LjAgNTc0LjQgTCAxNjAuMCA1NTcuOSBMIDE3Ni4wIDU0MC4xIEwgMTkyLjAgNTIxLjYgTCAyMDguMCA1MDMuNSBMIDIyNC4wIDQ4Ni42IEwgMjQwLjAgNDcxLjggTCAyNTYuMCA0NTkuOCBMIDI3Mi4wIDQ1MS4wIEwgMjg4LjAgNDQ1LjggTCAzMDQuMCA0NDQuNCBMIDMyMC4wIDQ0Ni42IEwgMzM2LjAgNDUyLjEgTCAzNTIuMCA0NjAuNSBMIDM2OC4wIDQ3MS4zIEwgMzg0LjAgNDgzLjcgTCA0MDAuMCA0OTcuMiBMIDQxNi4wIDUxMS4wIEwgNDMyLjAgNTI0LjYgTCA0NDguMCA1MzcuNyBMIDQ2NC4wIDU0OS44IEwgNDgwLjAgNTYwLjkgTCA0OTYuMCA1NzEuMCBMIDUxMi4wIDU4MC41IEwgNTI4LjAgNTg5LjcgTCA1NDQuMCA1OTkuMCBMIDU2MC4wIDYwOS4wIEwgNTc2LjAgNjIwLjMgTCA1OTIuMCA2MzMuNCBMIDYwOC4wIDY0OC42IEwgNjI0LjAgNjY2LjMgTCA2NDAuMCA2ODYuNSBMIDY1Ni4wIDcwOS4xIEwgNjcyLjAgNzMzLjkgTCA2ODguMCA3NjAuNCBMIDcwNC4wIDc4Ny44IEwgNzIwLjAgODE1LjQgTCA3MzYuMCA4NDIuMyBMIDc1Mi4wIDg2Ny42IEwgNzY4LjAgODkwLjQgTCA3ODQuMCA5MDkuOSBMIDgwMC4wIDkyNS41IEwgODE2LjAgOTM2LjUgTCA4MzIuMCA5NDIuOSBMIDg0OC4wIDk0NC40IEwgODY0LjAgOTQxLjQgTCA4ODAuMCA5MzQuMiBMIDg5Ni4wIDkyMy4zIEwgOTEyLjAgOTA5LjYgTCA5MjguMCA4OTQuMCBMIDk0NC4wIDg3Ny4yIEwgOTYwLjAgODYwLjEgTCA5NzYuMCA4NDMuNyBMIDk5Mi4wIDgyOC41IEwgMTAwOC4wIDgxNS4wIEwgMTAyNC4wIDgwMy43IEwgMTA0MC4wIDc5NC42IEwgMTA1Ni4wIDc4Ny43IEwgMTA3Mi4wIDc4Mi43IEwgMTA4OC4wIDc3OS4zIEwgMTEwNC4wIDc3Ni44IEwgMTEyMC4wIDc3NC43IEwgMTEzNi4wIDc3Mi40IEwgMTE1Mi4wIDc2OS40IEwgMTE2OC4wIDc2NS4yIEwgMTE4NC4wIDc1OS40IEwgMTIwMC4wIDc1MS44IEwgMTIxNi4wIDc0Mi42IEwgMTIzMi4wIDczMS44IEwgMTI0OC4wIDcxOS44IEwgMTI2NC4wIDcwNy4wIEwgMTI4MC4wIDY5NC4yIEwgMTI5Ni4wIDY4MS45IEwgMTMxMi4wIDY3MC43IEwgMTMyOC4wIDY2MS4zIEwgMTM0NC4wIDY1NC4xIEwgMTM2MC4wIDY0OS42IEwgMTM3Ni4wIDY0Ny44IEwgMTM5Mi4wIDY0OC44IEwgMTQwOC4wIDY1Mi4yIEwgMTQyNC4wIDY1Ny43IEwgMTQ0MC4wIDY2NC43IEwgMTQ1Ni4wIDY3Mi40IEwgMTQ3Mi4wIDY4MC4xIEwgMTQ4OC4wIDY4Ni43IEwgMTUwNC4wIDY5MS42IEwgMTUyMC4wIDY5NC4wIEwgMTUzNi4wIDY5My4xIEwgMTU1Mi4wIDY4OC43IEwgMTU2OC4wIDY4MC41IEwgMTU4NC4wIDY2OC41IEwgMTYwMC4wIDY1Mi44IEwgMTYxNi4wIDYzNC4wIEwgMTYzMi4wIDYxMi43IEwgMTY0OC4wIDU4OS43IEwgMTY2NC4wIDU2NS44IEwgMTY4MC4wIDU0MS45IEwgMTY5Ni4wIDUxOC45IEwgMTcxMi4wIDQ5Ny43IEwgMTcyOC4wIDQ3OC45IEwgMTc0NC4wIDQ2My4wIEwgMTc2MC4wIDQ1MC40IEwgMTc3Ni4wIDQ0MS4xIEwgMTc5Mi4wIDQzNS4yIEwgMTgwOC4wIDQzMi4zIEwgMTgyNC4wIDQzMi4wIEwgMTg0MC4wIDQzMy45IEwgMTg1Ni4wIDQzNy4yIEwgMTg3Mi4wIDQ0MS41IEwgMTg4OC4wIDQ0Ni4xIEwgMTkwNC4wIDQ1MC42IEwgMTkyMC4wIDQ1NC42IEwgMTkyMCAxMDgwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q0YWYzNyIgc3Ryb2tlLXdpZHRoPSIyLjYiIG9wYWNpdHk9IjAuNjUiLz4KICA8ZWxsaXBzZSBjeD0iOTYwIiBjeT0iNjIwIiByeD0iODAwIiByeT0iNzUiIGZpbGw9InVybCgjY2xvdWRHcmFkKSIvPgogIDxlbGxpcHNlIGN4PSI0NTAiIGN5PSI1MzAiIHJ4PSI1NTAiIHJ5PSI1NSIgZmlsbD0idXJsKCNjbG91ZEdyYWQpIi8+CiAgPGVsbGlwc2UgY3g9IjE0ODAiIGN5PSI3MTAiIHJ4PSI2NTAiIHJ5PSI2NSIgZmlsbD0idXJsKCNjbG91ZEdyYWQpIi8+CiAgPHBhdGggZD0iTSAwIDEwODAgTCAwIDgwMCBMIDAuMCA3MTIuNiBMIDE2LjAgNzIzLjMgTCAzMi4wIDczMy44IEwgNDguMCA3NDMuMiBMIDY0LjAgNzUwLjcgTCA4MC4wIDc1Ni4xIEwgOTYuMCA3NTkuNyBMIDExMi4wIDc2Mi4zIEwgMTI4LjAgNzY0LjkgTCAxNDQuMCA3NjkuMCBMIDE2MC4wIDc3NS45IEwgMTc2LjAgNzg2LjcgTCAxOTIuMCA4MDIuMiBMIDIwOC4wIDgyMi43IEwgMjI0LjAgODQ3LjggTCAyNDAuMCA4NzYuNSBMIDI1Ni4wIDkwNy40IEwgMjcyLjAgOTM4LjYgTCAyODguMCA5NjguMSBMIDMwNC4wIDk5My45IEwgMzIwLjAgMTAxNC41IEwgMzM2LjAgMTAyOC42IEwgMzUyLjAgMTAzNS43IEwgMzY4LjAgMTAzNS45IEwgMzg0LjAgMTAyOS45IEwgNDAwLjAgMTAxOC44IEwgNDE2LjAgMTAwNC4yIEwgNDMyLjAgOTg3LjYgTCA0NDguMCA5NzAuNyBMIDQ2NC4wIDk1NC43IEwgNDgwLjAgOTQwLjMgTCA0OTYuMCA5MjcuOSBMIDUxMi4wIDkxNy4yIEwgNTI4LjAgOTA3LjcgTCA1NDQuMCA4OTguMiBMIDU2MC4wIDg4Ny44IEwgNTc2LjAgODc1LjUgTCA1OTIuMCA4NjAuNSBMIDYwOC4wIDg0Mi41IEwgNjI0LjAgODIxLjcgTCA2NDAuMCA3OTguOCBMIDY1Ni4wIDc3NS4wIEwgNjcyLjAgNzUxLjggTCA2ODguMCA3MzAuOCBMIDcwNC4wIDcxMy41IEwgNzIwLjAgNzAxLjEgTCA3MzYuMCA2OTQuNCBMIDc1Mi4wIDY5My42IEwgNzY4LjAgNjk4LjIgTCA3ODQuMCA3MDcuMyBMIDgwMC4wIDcxOS4yIEwgODE2LjAgNzMyLjEgTCA4MzIuMCA3NDQuMyBMIDg0OC4wIDc1NC4wIEwgODY0LjAgNzU5LjcgTCA4ODAuMCA3NjAuNyBMIDg5Ni4wIDc1Ni42IEwgOTEyLjAgNzQ3LjkgTCA5MjguMCA3MzUuNCBMIDk0NC4wIDcyMC41IEwgOTYwLjAgNzA0LjggTCA5NzYuMCA2ODkuOCBMIDk5Mi4wIDY3Ni45IEwgMTAwOC4wIDY2Ny4xIEwgMTAyNC4wIDY2MC45IEwgMTA0MC4wIDY1OC40IEwgMTA1Ni4wIDY1OC45IEwgMTA3Mi4wIDY2MS43IEwgMTA4OC4wIDY2NS41IEwgMTEwNC4wIDY2OS4zIEwgMTEyMC4wIDY3Mi4wIEwgMTEzNi4wIDY3Mi45IEwgMTE1Mi4wIDY3Mi4wIEwgMTE2OC4wIDY2OS41IEwgMTE4NC4wIDY2Ni4zIEwgMTIwMC4wIDY2My42IEwgMTIxNi4wIDY2Mi45IEwgMTIzMi4wIDY2NS41IEwgMTI0OC4wIDY3My4wIEwgMTI2NC4wIDY4Ni4xIEwgMTI4MC4wIDcwNS4zIEwgMTI5Ni4wIDczMC4zIEwgMTMxMi4wIDc2MC40IEwgMTMyOC4wIDc5NC4xIEwgMTM0NC4wIDgyOS42IEwgMTM2MC4wIDg2NC45IEwgMTM3Ni4wIDg5Ny45IEwgMTM5Mi4wIDkyNy4wIEwgMTQwOC4wIDk1MC43IEwgMTQyNC4wIDk2OC40IEwgMTQ0MC4wIDk3OS44IEwgMTQ1Ni4wIDk4NS40IEwgMTQ3Mi4wIDk4Ni4yIEwgMTQ4OC4wIDk4My42IEwgMTUwNC4wIDk3OC45IEwgMTUyMC4wIDk3My41IEwgMTUzNi4wIDk2OC42IEwgMTU1Mi4wIDk2NS4wIEwgMTU2OC4wIDk2Mi43IEwgMTU4NC4wIDk2MS42IEwgMTYwMC4wIDk2MC45IEwgMTYxNi4wIDk1OS42IEwgMTYzMi4wIDk1Ni42IEwgMTY0OC4wIDk1MC44IEwgMTY2NC4wIDk0MS40IEwgMTY4MC4wIDkyOC4xIEwgMTY5Ni4wIDkxMS4xIEwgMTcxMi4wIDg5MC45IEwgMTcyOC4wIDg2OC45IEwgMTc0NC4wIDg0Ni40IEwgMTc2MC4wIDgyNS4zIEwgMTc3Ni4wIDgwNy4xIEwgMTc5Mi4wIDc5My4zIEwgMTgwOC4wIDc4NC42IEwgMTgyNC4wIDc4MS42IEwgMTg0MC4wIDc4My44IEwgMTg1Ni4wIDc5MC40IEwgMTg3Mi4wIDgwMC4xIEwgMTg4OC4wIDgxMC45IEwgMTkwNC4wIDgyMS4xIEwgMTkyMC4wIDgyOS4wIEwgMTkyMCAxMDgwIFoiIGZpbGw9InVybCgjamlhb21vR3JhZCkiIG9wYWNpdHk9IjAuOTUiLz4KICA8cGF0aCBkPSJNIDAgMTA4MCBMIDAgODAwIEwgMC4wIDcxMi42IEwgMTYuMCA3MjMuMyBMIDMyLjAgNzMzLjggTCA0OC4wIDc0My4yIEwgNjQuMCA3NTAuNyBMIDgwLjAgNzU2LjEgTCA5Ni4wIDc1OS43IEwgMTEyLjAgNzYyLjMgTCAxMjguMCA3NjQuOSBMIDE0NC4wIDc2OS4wIEwgMTYwLjAgNzc1LjkgTCAxNzYuMCA3ODYuNyBMIDE5Mi4wIDgwMi4yIEwgMjA4LjAgODIyLjcgTCAyMjQuMCA4NDcuOCBMIDI0MC4wIDg3Ni41IEwgMjU2LjAgOTA3LjQgTCAyNzIuMCA5MzguNiBMIDI4OC4wIDk2OC4xIEwgMzA0LjAgOTkzLjkgTCAzMjAuMCAxMDE0LjUgTCAzMzYuMCAxMDI4LjYgTCAzNTIuMCAxMDM1LjcgTCAzNjguMCAxMDM1LjkgTCAzODQuMCAxMDI5LjkgTCA0MDAuMCAxMDE4LjggTCA0MTYuMCAxMDA0LjIgTCA0MzIuMCA5ODcuNiBMIDQ0OC4wIDk3MC43IEwgNDY0LjAgOTU0LjcgTCA0ODAuMCA5NDAuMyBMIDQ5Ni4wIDkyNy45IEwgNTEyLjAgOTE3LjIgTCA1MjguMCA5MDcuNyBMIDU0NC4wIDg5OC4yIEwgNTYwLjAgODg3LjggTCA1NzYuMCA4NzUuNSBMIDU5Mi4wIDg2MC41IEwgNjA4LjAgODQyLjUgTCA2MjQuMCA4MjEuNyBMIDY0MC4wIDc5OC44IEwgNjU2LjAgNzc1LjAgTCA2NzIuMCA3NTEuOCBMIDY4OC4wIDczMC44IEwgNzA0LjAgNzEzLjUgTCA3MjAuMCA3MDEuMSBMIDczNi4wIDY5NC40IEwgNzUyLjAgNjkzLjYgTCA3NjguMCA2OTguMiBMIDc4NC4wIDcwNy4zIEwgODAwLjAgNzE5LjIgTCA4MTYuMCA3MzIuMSBMIDgzMi4wIDc0NC4zIEwgODQ4LjAgNzU0LjAgTCA4NjQuMCA3NTkuNyBMIDg4MC4wIDc2MC43IEwgODk2LjAgNzU2LjYgTCA5MTIuMCA3NDcuOSBMIDkyOC4wIDczNS40IEwgOTQ0LjAgNzIwLjUgTCA5NjAuMCA3MDQuOCBMIDk3Ni4wIDY4OS44IEwgOTkyLjAgNjc2LjkgTCAxMDA4LjAgNjY3LjEgTCAxMDI0LjAgNjYwLjkgTCAxMDQwLjAgNjU4LjQgTCAxMDU2LjAgNjU4LjkgTCAxMDcyLjAgNjYxLjcgTCAxMDg4LjAgNjY1LjUgTCAxMTA0LjAgNjY5LjMgTCAxMTIwLjAgNjcyLjAgTCAxMTM2LjAgNjcyLjkgTCAxMTUyLjAgNjcyLjAgTCAxMTY4LjAgNjY5LjUgTCAxMTg0LjAgNjY2LjMgTCAxMjAwLjAgNjYzLjYgTCAxMjE2LjAgNjYyLjkgTCAxMjMyLjAgNjY1LjUgTCAxMjQ4LjAgNjczLjAgTCAxMjY0LjAgNjg2LjEgTCAxMjgwLjAgNzA1LjMgTCAxMjk2LjAgNzMwLjMgTCAxMzEyLjAgNzYwLjQgTCAxMzI4LjAgNzk0LjEgTCAxMzQ0LjAgODI5LjYgTCAxMzYwLjAgODY0LjkgTCAxMzc2LjAgODk3LjkgTCAxMzkyLjAgOTI3LjAgTCAxNDA4LjAgOTUwLjcgTCAxNDI0LjAgOTY4LjQgTCAxNDQwLjAgOTc5LjggTCAxNDU2LjAgOTg1LjQgTCAxNDcyLjAgOTg2LjIgTCAxNDg4LjAgOTgzLjYgTCAxNTA0LjAgOTc4LjkgTCAxNTIwLjAgOTczLjUgTCAxNTM2LjAgOTY4LjYgTCAxNTUyLjAgOTY1LjAgTCAxNTY4LjAgOTYyLjcgTCAxNTg0LjAgOTYxLjYgTCAxNjAwLjAgOTYwLjkgTCAxNjE2LjAgOTU5LjYgTCAxNjMyLjAgOTU2LjYgTCAxNjQ4LjAgOTUwLjggTCAxNjY0LjAgOTQxLjQgTCAxNjgwLjAgOTI4LjEgTCAxNjk2LjAgOTExLjEgTCAxNzEyLjAgODkwLjkgTCAxNzI4LjAgODY4LjkgTCAxNzQ0LjAgODQ2LjQgTCAxNzYwLjAgODI1LjMgTCAxNzc2LjAgODA3LjEgTCAxNzkyLjAgNzkzLjMgTCAxODA4LjAgNzg0LjYgTCAxODI0LjAgNzgxLjYgTCAxODQwLjAgNzgzLjggTCAxODU2LjAgNzkwLjQgTCAxODcyLjAgODAwLjEgTCAxODg4LjAgODEwLjkgTCAxOTA0LjAgODIxLjEgTCAxOTIwLjAgODI5LjAgTCAxOTIwIDEwODAgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzI5YjM4IiBzdHJva2Utd2lkdGg9IjIuMCIgb3BhY2l0eT0iMC41Ii8+CiAgPHBhdGggZD0iTSAwIDEwODAgTCAwIDkzMCBMIDAuMCA5ODAuOSBMIDE2LjAgMTAwMi44IEwgMzIuMCAxMDIyLjkgTCA0OC4wIDEwMzkuMCBMIDY0LjAgMTA0OS43IEwgODAuMCAxMDU0LjYgTCA5Ni4wIDEwNTQuNiBMIDExMi4wIDEwNTEuMSBMIDEyOC4wIDEwNDUuOCBMIDE0NC4wIDEwNDAuNCBMIDE2MC4wIDEwMzUuOCBMIDE3Ni4wIDEwMzIuMiBMIDE5Mi4wIDEwMjguOCBMIDIwOC4wIDEwMjQuMyBMIDIyNC4wIDEwMTcuMCBMIDI0MC4wIDEwMDUuMiBMIDI1Ni4wIDk4OC4zIEwgMjcyLjAgOTY2LjMgTCAyODguMCA5NDAuMyBMIDMwNC4wIDkxMi42IEwgMzIwLjAgODg1LjYgTCAzMzYuMCA4NjIuMiBMIDM1Mi4wIDg0NC41IEwgMzY4LjAgODMzLjkgTCAzODQuMCA4MzAuNCBMIDQwMC4wIDgzMy4wIEwgNDE2LjAgODM5LjkgTCA0MzIuMCA4NDguNiBMIDQ0OC4wIDg1Ni43IEwgNDY0LjAgODYyLjUgTCA0ODAuMCA4NjUuMSBMIDQ5Ni4wIDg2NC42IEwgNTEyLjAgODYyLjEgTCA1MjguMCA4NTkuMSBMIDU0NC4wIDg1Ny40IEwgNTYwLjAgODU4LjIgTCA1NzYuMCA4NjIuMiBMIDU5Mi4wIDg2OS4xIEwgNjA4LjAgODc3LjYgTCA2MjQuMCA4ODYuMCBMIDY0MC4wIDg5Mi41IEwgNjU2LjAgODk1LjUgTCA2NzIuMCA4OTQuMSBMIDY4OC4wIDg4OC43IEwgNzA0LjAgODgwLjUgTCA3MjAuMCA4NzEuNyBMIDczNi4wIDg2NC45IEwgNzUyLjAgODYyLjMgTCA3NjguMCA4NjUuOCBMIDc4NC4wIDg3Ni4yIEwgODAwLjAgODkyLjkgTCA4MTYuMCA5MTQuNiBMIDgzMi4wIDkzOS4wIEwgODQ4LjAgOTYzLjMgTCA4NjQuMCA5ODUuNCBMIDg4MC4wIDEwMDMuNSBMIDg5Ni4wIDEwMTYuOSBMIDkxMi4wIDEwMjYuMCBMIDkyOC4wIDEwMzEuOCBMIDk0NC4wIDEwMzYuMCBMIDk2MC4wIDEwNDAuMCBMIDk3Ni4wIDEwNDQuOCBMIDk5Mi4wIDEwNTAuNyBMIDEwMDguMCAxMDU2LjkgTCAxMDI0LjAgMTA2Mi4wIEwgMTA0MC4wIDEwNjQuMSBMIDEwNTYuMCAxMDYxLjQgTCAxMDcyLjAgMTA1Mi42IEwgMTA4OC4wIDEwMzcuMyBMIDExMDQuMCAxMDE2LjQgTCAxMTIwLjAgOTkxLjUgTCAxMTM2LjAgOTY1LjIgTCAxMTUyLjAgOTQwLjMgTCAxMTY4LjAgOTE5LjMgTCAxMTg0LjAgOTA0LjAgTCAxMjAwLjAgODk1LjAgTCAxMjE2LjAgODkxLjkgTCAxMjMyLjAgODkzLjEgTCAxMjQ4LjAgODk2LjYgTCAxMjY0LjAgOTAwLjAgTCAxMjgwLjAgOTAxLjYgTCAxMjk2LjAgOTAwLjEgTCAxMzEyLjAgODk1LjYgTCAxMzI4LjAgODg4LjcgTCAxMzQ0LjAgODgxLjAgTCAxMzYwLjAgODc0LjIgTCAxMzc2LjAgODY5LjcgTCAxMzkyLjAgODY4LjQgTCAxNDA4LjAgODcwLjIgTCAxNDI0LjAgODc0LjEgTCAxNDQwLjAgODc4LjQgTCAxNDU2LjAgODgxLjIgTCAxNDcyLjAgODgwLjYgTCAxNDg4LjAgODc1LjcgTCAxNTA0LjAgODY2LjEgTCAxNTIwLjAgODUzLjEgTCAxNTM2LjAgODM4LjUgTCAxNTUyLjAgODI0LjggTCAxNTY4LjAgODE0LjggTCAxNTg0LjAgODEwLjUgTCAxNjAwLjAgODEzLjQgTCAxNjE2LjAgODIzLjQgTCAxNjMyLjAgODM5LjggTCAxNjQ4LjAgODYwLjUgTCAxNjY0LjAgODgzLjIgTCAxNjgwLjAgOTA1LjUgTCAxNjk2LjAgOTI1LjUgTCAxNzEyLjAgOTQyLjQgTCAxNzI4LjAgOTU2LjEgTCAxNzQ0LjAgOTY3LjUgTCAxNzYwLjAgOTc3LjggTCAxNzc2LjAgOTg4LjcgTCAxNzkyLjAgMTAwMS4xIEwgMTgwOC4wIDEwMTUuNCBMIDE4MjQuMCAxMDMwLjggTCAxODQwLjAgMTA0Ni4xIEwgMTg1Ni4wIDEwNTkuMCBMIDE4NzIuMCAxMDY3LjUgTCAxODg4LjAgMTA2OS45IEwgMTkwNC4wIDEwNjUuMyBMIDE5MjAuMCAxMDUzLjggTCAxOTIwIDEwODAgWiIgZmlsbD0iIzI0MWUxNyIgb3BhY2l0eT0iMC45OCIvPgo8L3N2Zz4=') no-repeat center bottom / cover !important;
+    display: block !important;
+    opacity: 1 !important;
+}
+
+
+/* ================= 3D 营造舞台：完全独立沉浸，绝不透出背景底图 ================= */
+#viewport-3d, .viewport-3d {
+    position: relative !important;
+    background: #0f0d0c !important; /* 纯正玄黛幽黑，彻底遮挡任何背景 */
+    border: 1.5px solid #4a3d31 !important;
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.9), 0 8px 30px rgba(25, 18, 12, 0.25) !important;
+    overflow: hidden !important;
+    cursor: grab;
+}
+
+#viewport-3d:active {
+    cursor: grabbing;
+}
+
+/* 确保 3D 内部悬浮标签可点击，且不挡住 canvas 事件 */
+.labels-3d-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* 穿透到 canvas 让 3D 射线拾取正常工作 */
+    z-index: 10;
+}
+
+.yao-label-tag {
+    pointer-events: auto !important; /* 悬浮标签自身可点击 */
+    cursor: pointer !important;
+    user-select: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.yao-label-tag:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(220, 160, 60, 0.6) !important;
+}
+
+/* 确保二级抽屉浮在最顶层 */
+#drawer-3d-detail, .drawer-panel {
+    z-index: 999999 !important;
+}
+
+/* ================= 2D 平面排盘：金镶玉月梁大木美学升格 ================= */
+
+/* 单行排盘高度与间隙规范 */
+.yao-row {
+    padding: 8px 12px !important;
+    margin-bottom: 6px !important;
+    border-radius: 6px !important;
+    background: rgba(255, 255, 255, 0.75) !important;
+    border: 1px solid rgba(215, 198, 175, 0.45) !important;
+    display: flex;
+    align-items: center;
+    transition: background 0.15s ease;
+}
+
+.yao-row:hover {
+    background: rgba(255, 252, 244, 0.95) !important;
+    box-shadow: 0 2px 8px rgba(60, 40, 20, 0.08) !important;
+}
+
+/* 木块爻象容器 */
+.col-wood {
+    width: 148px !important;
+    height: 18px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 阳爻：完整金镶玉梁 (深黑檀包边 + 羊脂白玉内芯 + 泥金抱角) */
+
+
+/* 阳爻两端泥金铜抱箍 */
+.wood-solid::before, .wood-solid::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    width: 5px;
+    background: linear-gradient(180deg, #ecd38c 0%, #b88d3b 100%);
+    border: 1px solid #735118;
+}
+.wood-solid::before { left: 8px; }
+.wood-solid::after { right: 8px; }
+
+/* 阴爻：二分断木容器 */
+
+
+/* 阴爻左右两段断玉 */
+
+
+.wood-part::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    width: 4px;
+    background: linear-gradient(180deg, #ecd38c 0%, #b88d3b 100%);
+    border: 1px solid #735118;
+}
+.wood-split-wrap .wood-part:first-child::after { right: 4px; }
+.wood-split-wrap .wood-part:last-child::after { left: 4px; }
+
+/* 动爻升格：朱砂檀木 + 血玉微光 (老阳/老阴) */
+.anim-split, .anim-merge, .yao-moving .wood-solid, .yao-moving 
+
+/* 动爻标记（○ / ×）升格为金石朱印印记 */
+.col-mark {
+    width: 28px !important;
+    font-family: "STKaiti", "KaiTi", serif !important;
+    font-weight: 900 !important;
+    font-size: 15px !important;
+    text-align: center;
+    color: #b32d18 !important;
+    text-shadow: 0 0 1px rgba(179, 45, 24, 0.4);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ================= 2D 排盘大木作金镶玉核心标准规则 ================= */
+
+/* 1. 排盘单行 */
+.yao-row {
+    display: flex !important;
+    align-items: center !important;
+    padding: 8px 16px !important;
+    margin-bottom: 6px !important;
+    background: rgba(255, 254, 250, 0.95) !important;
+    border: 1.2px solid #ded5c5 !important;
+    border-radius: 6px !important;
+}
+
+/* 2. 爻木核心槽位 (宽度严格锁定 152px) */
+.col-wood {
+    width: 152px !important;
+    min-width: 152px !important;
+    max-width: 152px !important;
+    height: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 14px !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* 3. 阴爻包裹层：绝对透明无框，均分两端 */
+.col-wood .wood-split-wrap,
+.wood-split-wrap {
+    width: 152px !important;
+    height: 18px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* 4. 木枋基础通则：深黑檀框 + 羊脂温润白玉心 */
+.col-wood .wood-block {
+    height: 18px !important;
+    background: #fbf8f2 !important; /* 羊脂白玉 */
+    border: 2px solid #241b13 !important; /* 黑檀深框 */
+    border-radius: 2px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    box-shadow: 
+        inset 0 1px 2px rgba(255,255,255,0.95),
+        inset 0 -1px 2px rgba(180,160,130,0.35),
+        0 1px 3px rgba(35,20,10,0.15) !important;
+}
+
+/* 5. 阳爻（整梁 152px）：两端整齐贴合包金箍 */
+.col-wood .wood-solid {
+    width: 152px !important;
+}
+
+.col-wood .wood-solid::before,
+.col-wood .wood-solid::after {
+    content: "" !important;
+    position: absolute !important;
+    top: -2px !important;
+    bottom: -2px !important;
+    width: 6px !important;
+    background: linear-gradient(180deg, #f5dfa2 0%, #b88d3b 100%) !important;
+    border: 1px solid #735118 !important;
+    box-sizing: border-box !important;
+    z-index: 2 !important;
+}
+.col-wood .wood-solid::before { left: 0 !important; border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
+.col-wood .wood-solid::after { right: 0 !important; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
+
+/* 6. 阴爻（左右两截各 67px，中缝 18px）：彻底解决不对称与双黑线 */
+.col-wood .wood-part {
+    width: 67px !important;
+}
+
+/* 清除旧伪元素干扰 */
+.col-wood .wood-part::before,
+.col-wood .wood-part::after {
+    display: none !important;
+}
+
+/* 左段木：内部右断口金榫 (采用内嵌右边框与背景渐变，绝不溢出) */
+.col-wood .wood-split-wrap > .wood-part:first-child {
+    border-right: 5px solid #c99c42 !important;
+}
+
+/* 右段木：内部左断口金榫 (采用内嵌左边框与背景渐变，绝对镜像对称) */
+.col-wood .wood-split-wrap > .wood-part:last-child {
+    border-left: 5px solid #c99c42 !important;
+}
+
+/* 7. 动爻（老阳○ / 老阴×）：血玉由内而外浸润，内芯彻底呈朱砂暖红 */
+.anim-split,
+.anim-merge,
+.yao-row.yao-moving .wood-block,
+.yao-row.yao-moving .wood-solid,
+.yao-row.yao-moving .wood-part,
+.yao-row:has(.col-mark:not(:empty)) .wood-block,
+.yao-row:has(.col-mark:not(:empty)) .wood-solid,
+.yao-row:has(.col-mark:not(:empty)) .wood-part {
+    background: linear-gradient(180deg, #ffece8 0%, #fcae9f 100%) !important; /* 羊脂血玉内芯 */
+    border-color: #7d170a !important; /* 朱砂檀木框 */
+    box-shadow: 0 0 10px rgba(220, 45, 18, 0.45), inset 0 1px 2px #fff !important;
+}
+
+/* 动爻内部金色暗榫同步微调暖红金 */
+.yao-row.yao-moving .wood-split-wrap > .wood-part:first-child,
+.yao-row:has(.col-mark:not(:empty)) .wood-split-wrap > .wood-part:first-child {
+    border-right-color: #d98236 !important;
+}
+.yao-row.yao-moving .wood-split-wrap > .wood-part:last-child,
+.yao-row:has(.col-mark:not(:empty)) .wood-split-wrap > .wood-part:last-child {
+    border-left-color: #d98236 !important;
+}
+
+/* 8. 动爻微呼吸律动 */
+@keyframes breathingPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.9; }
+}
+.anim-split, .anim-merge {
+    animation: breathingPulse 2.2s infinite ease-in-out !important;
+}
+
+/* 9. 动爻标记朱砂印记 */
+.col-mark {
+    width: 26px !important;
+    min-width: 26px !important;
+    font-family: "STKaiti", "KaiTi", serif !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    color: #b52914 !important;
+    text-align: center !important;
+}
+
+
+/* ================= 六十四卦图谱辞典卡片美化 ================= */
+.btn-filter {
+    background: #f5eedf !important;
+    border: 1px solid #d4c4a8 !important;
+    color: #5d4a36 !important;
+    padding: 3px 8px !important;
+    font-size: 12px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+}
+.btn-filter.active, .btn-filter:hover {
+    background: #8b4513 !important;
+    color: #fff !important;
+    border-color: #5c2d0c !important;
+}
+.manual-card {
+    background: #fffdfa;
+    border: 1.5px solid #ded3c1;
+    border-radius: 6px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.18s ease-in-out;
+    box-shadow: 0 2px 5px rgba(40,25,10,0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.manual-card:hover {
+    transform: translateY(-2px);
+    border-color: #8b4513;
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.16);
+}
