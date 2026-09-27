@@ -292,6 +292,45 @@ class TestEvidenceEngine:
         assert any(e["phenomenon"] == "动化进神" for e in evs)
         assert evs and all(e.get("source_type") in ("原文", "义理转述") for e in evs)
 
+    def test_all_original_quotes_verbatim_in_source_texts(self):
+        """防伪造回归：每条 source_type=原文 的引证，其每个……分隔片段
+        必须在对应典籍 txt 中逐字存在；book_key 必须能对应到 catalog。"""
+        import os
+        from app.core.classics_kb import CLASSICS_CATALOG
+
+        classics_dir = os.path.join(os.path.dirname(__file__), "..", "app", "data", "classics")
+        lines = [
+            self._line(status_tags=["月破"], is_moving=True),
+            self._line(status_tags=["旬空"], is_moving=True),
+            self._line(status_tags=["暗动"], change_relationship="动化回头克", is_moving=True),
+            self._line(change_relationship="动化回头生", is_moving=True),
+            self._line(change_relationship="动化进神", is_moving=True),
+            self._line(status_tags=["动爻逢日冲"], change_relationship="动化退神", is_moving=True),
+            self._line(fushen={"six_relative": "官鬼", "branch": "亥"}, is_moving=True),
+        ]
+        evs = EvidenceEngine.extract_evidences(lines)
+        evs += EvidenceEngine.extract_evidences([self._line(), self._line(position=2)])
+        assert len(evs) == 10, [e["phenomenon"] for e in evs]
+
+        texts = {}
+        for e in evs:
+            assert e["source_type"] == "原文", e["phenomenon"]
+            bk = e.get("book_key")
+            assert bk in CLASSICS_CATALOG, (e["phenomenon"], bk)
+            entry = CLASSICS_CATALOG[bk]
+            assert e["book_title"] == entry["title"], (e["phenomenon"], e["book_title"])
+            assert entry.get("has_fulltext") is True, bk
+            fname = entry["source_file"].split("/")[-1]
+            if bk not in texts:
+                p = os.path.join(classics_dir, fname)
+                assert os.path.isfile(p), p
+                with open(p, encoding="utf-8") as f:
+                    texts[bk] = f.read()
+            for seg in (s.strip("…") for s in e["original_text"].split("……")):
+                if len(seg) < 4:  # 省略号占位片段跳过
+                    continue
+                assert seg in texts[bk], (e["phenomenon"], e["chapter"], seg[:40])
+
 # ================= 典籍档案（十大典籍单一可信源） =================
 class TestClassicsCatalog:
     EXPECTED_TITLES = ["增删卜易", "卜筮正宗", "黄金策", "火珠林", "易隐",
