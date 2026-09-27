@@ -533,5 +533,18 @@
         </div>
     </div>
 
+    <div id="app-version" style="text-align: center; font-size: 11px; color: #a08b6d; padding: 12px 0 18px;">
+        六爻象数营造与典籍引证系统 &middot; v1.4.0
+    </div>
+    <script>
+    (function () {
+        fetch("/api/version").then(function (r) { return r.json(); }).then(function (d) {
+            if (d && d.status === "success") {
+                document.getElementById("app-version").innerText =
+                    "六爻象数营造与典籍引证系统 · v" + d.version + " · 构建 " + d.build_date;
+            }
+        }).catch(function () {});
+    })();
+    </script>
 </body>
 </html>

@@ -409,3 +409,18 @@ class TestClassicsReader:
         assert "/api/classics/${bookKey}/text" in js
         assert 'id="classics-reader"' in html
         assert 'id="reader-chapter-select"' in html
+
+
+# ================= 版本号 =================
+class TestVersion:
+    def test_version_module(self):
+        from app.version import VERSION, BUILD_DATE
+        assert VERSION == "1.4.0"
+        assert BUILD_DATE == "2026-09-27"
+
+    def test_version_footer_in_index(self):
+        html = open(os.path.join(os.path.dirname(__file__), "..", "..",
+                                 "frontend", "index.html"), encoding="utf-8").read()
+        assert 'id="app-version"' in html
+        assert "/api/version" in html
+        assert "v1.4.0" in html

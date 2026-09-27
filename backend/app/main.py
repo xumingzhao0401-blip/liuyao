@@ -21,10 +21,11 @@ from app.core.time_engine import TimeEngine
 from app.core.classics_kb import EvidenceEngine, CLASSICS_CATALOG
 from app.core.glossary_kb import GLOSSARY_ITEMS
 from app.core.classics_reader import load_book_text
+from app.version import VERSION, BUILD_DATE
 
 
 
-app = FastAPI(title="六爻象数营造与典籍考据系统 API", version="1.3.0")
+app = FastAPI(title="六爻象数营造与典籍考据系统 API", version=VERSION)
 
 # ================= 规范挂载静态资源目录 =================
 from fastapi.staticfiles import StaticFiles
@@ -171,6 +172,11 @@ def construct_dynamic_prompt(time_info: Dict[str, Any], hex_meta: Dict[str, Any]
     return prompt
 
 # ----------------- 路由接口 -----------------
+@app.get("/api/version")
+async def get_version():
+    return {"status": "success", "version": VERSION, "build_date": BUILD_DATE}
+
+
 @app.get("/api/classics")
 async def get_classics_catalog():
     return {"status": "success", "catalog": CLASSICS_CATALOG}
