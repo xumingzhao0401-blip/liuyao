@@ -291,3 +291,22 @@ class TestEvidenceEngine:
         evs = EvidenceEngine.extract_evidences(te.diagnose_lines(asm))
         assert any(e["phenomenon"] == "动化进神" for e in evs)
         assert evs and all(e.get("source_type") in ("原文", "义理转述") for e in evs)
+
+# ================= 典籍档案（十大典籍单一可信源） =================
+class TestClassicsCatalog:
+    EXPECTED_TITLES = ["增删卜易", "卜筮正宗", "黄金策", "火珠林", "易隐",
+                       "易冒", "断易天机", "卜筮全书", "易林补遗", "京氏易传"]
+
+    def test_catalog_has_ten_classics(self):
+        from app.core.classics_kb import CLASSICS_CATALOG
+        assert len(CLASSICS_CATALOG) == 10
+        titles = [v["title"] for v in CLASSICS_CATALOG.values()]
+        assert titles == self.EXPECTED_TITLES
+
+    def test_catalog_entries_have_source_fields(self):
+        from app.core.classics_kb import CLASSICS_CATALOG
+        for key, v in CLASSICS_CATALOG.items():
+            assert v.get("source_file", "").endswith(".txt"), key
+            assert isinstance(v.get("has_fulltext"), bool), key
+            for f in ("title", "dynasty", "author", "summary"):
+                assert v.get(f), (key, f)

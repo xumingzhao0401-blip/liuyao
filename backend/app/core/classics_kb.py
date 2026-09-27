@@ -1,13 +1,42 @@
 """
 六爻经典典籍引证引擎与知识库
 收录十大经典考据条目，支持动爻变克、静卦旺衰、旬空出空、月破填实与伏神查验
+各典籍全文收录于 backend/app/data/classics/（UTF-8 纯文本，公有领域版本），
+引证一律以收录原文逐字核对，source_type 标注"原文"/"义理转述"。
 """
 
+# source_file 相对于 backend/app/；has_fulltext 在全文入库后置 True
 CLASSICS_CATALOG = {
-    "zsby": {"title": "增删卜易", "dynasty": "清", "author": "野鹤老人", "summary": "纳甲六爻实占巅峰之作，破除神煞繁冗，专主五行生克与月令日辰旺衰。"},
-    "bszz": {"title": "卜筮正宗", "dynasty": "清", "author": "王洪绪", "summary": "集先贤易说之大成，详论十八问答、黄金策千金赋注解，学理谨严。"},
-    "hjc":  {"title": "黄金策", "dynasty": "明", "author": "刘伯温", "summary": "六爻统括总纲，'动静阴阳，反复迁变'，辞藻典雅，断语精当。"},
-    "hzl":  {"title": "火珠林", "dynasty": "唐", "author": "麻衣道者", "summary": "铜钱摇卦之始，奠定钱代蓍草、以干支五行断吉凶之法门。"}
+    "zsby": {"title": "增删卜易", "dynasty": "清", "author": "野鹤老人",
+             "summary": "纳甲六爻实占巅峰之作，破除神煞繁冗，专主五行生克与月令日辰旺衰。",
+             "source_file": "data/classics/zengshanbuyi.txt", "has_fulltext": False},
+    "bszz": {"title": "卜筮正宗", "dynasty": "清", "author": "王洪绪",
+             "summary": "集先贤易说之大成，详论十八问答、黄金策千金赋注解，学理谨严。",
+             "source_file": "data/classics/bushizhengzong.txt", "has_fulltext": False},
+    "hjc":  {"title": "黄金策", "dynasty": "明", "author": "刘伯温",
+             "summary": "六爻统括总纲，'动静阴阳，反复迁变'，辞藻典雅，断语精当。",
+             "source_file": "data/classics/huangjince.txt", "has_fulltext": False},
+    "hzl":  {"title": "火珠林", "dynasty": "唐", "author": "麻衣道者",
+             "summary": "铜钱摇卦之始，奠定钱代蓍草、以干支五行断吉凶之法门。",
+             "source_file": "data/classics/huozhulin.txt", "has_fulltext": False},
+    "yy":   {"title": "易隐", "dynasty": "清", "author": "曹九锡",
+             "summary": "融汇飞伏互变、神煞星宿与深层象数，考究隐幽，推断精细绝伦。",
+             "source_file": "data/classics/yiyin.txt", "has_fulltext": False},
+    "ym":   {"title": "易冒", "dynasty": "清", "author": "程良玉",
+             "summary": "以聋道人笔名传世，条分缕析，辨析卦理极明，破除诸家疑窦。",
+             "source_file": "data/classics/yimao.txt", "has_fulltext": False},
+    "dytj": {"title": "断易天机", "dynasty": "明", "author": "万历刊本",
+             "summary": "收录元明诸多绝密秘诀，附图考证，专论百事吉凶生克。",
+             "source_file": "data/classics/duanyitianji.txt", "has_fulltext": False},
+    "bsqs": {"title": "卜筮全书", "dynasty": "明", "author": "姚际隆",
+             "summary": "汇辑周易源流、纳甲诸法，乃明清两代易占案头必习之渊薮。",
+             "source_file": "data/classics/bushiquanshu.txt", "has_fulltext": False},
+    "ylby": {"title": "易林补遗", "dynasty": "明", "author": "张㴶",
+             "summary": "精微细密，专攻六十四卦应验吉凶细目，补前人所未备。",
+             "source_file": "data/classics/yilinbuyi.txt", "has_fulltext": False},
+    "jsyz": {"title": "京氏易传", "dynasty": "西汉", "author": "京房",
+             "summary": "八宫卦变、纳甲筮法之真正源头，开创以五行生克言人事天机之先河。",
+             "source_file": "data/classics/jingshiyizhuan.txt", "has_fulltext": False},
 }
 
 class EvidenceEngine:
