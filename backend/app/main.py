@@ -133,7 +133,7 @@ LAYMAN_SYSTEM_PROMPT = """
 """
 
 def construct_dynamic_prompt(time_info: Dict[str, Any], hex_meta: Dict[str, Any], lines: List[Dict[str, Any]], evidences: List[Dict[str, Any]], question: Optional[str] = None) -> str:
-    ev_summary = "\n".join([f"- 【{e['phenomenon']}】出处《{e['book_title']}·{e['chapter']}》：{e['original_text']} (解：{e['explanation']})" for e in evidences])
+    ev_summary = "\n".join([f"- 【{e['phenomenon']}】出处《{e['book_title']}·{e['chapter']}》【{e.get('source_type', '义理转述')}】：{e['original_text']} (解：{e['explanation']})" for e in evidences])
     
     line_desc = []
     for l in reversed(lines):

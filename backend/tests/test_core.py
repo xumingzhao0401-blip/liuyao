@@ -266,3 +266,28 @@ class TestEvidenceEngine:
     def test_empty_input(self):
         assert EvidenceEngine.extract_evidences([]) == []
         assert EvidenceEngine.extract_evidences(None) == []
+
+    def test_jinshen_tuishen_evidence(self):
+        evs = EvidenceEngine.extract_evidences([self._line(change_relationship="动化进神")])
+        assert any(e["phenomenon"] == "动化进神" and e["book_title"] == "增删卜易" for e in evs)
+        evs = EvidenceEngine.extract_evidences([self._line(change_relationship="动化退神")])
+        assert any(e["phenomenon"] == "动化退神" for e in evs)
+
+    def test_andong_evidence(self):
+        evs = EvidenceEngine.extract_evidences([self._line(status_tags=["暗动"])])
+        assert any(e["phenomenon"] == "静爻暗动" for e in evs)
+
+    def test_moving_line_clashed_evidence(self):
+        evs = EvidenceEngine.extract_evidences([self._line(status_tags=["动爻逢日冲"])])
+        assert any(e["phenomenon"] == "动爻逢冲" for e in evs)
+
+    def test_all_evidences_have_source_type(self):
+        # 端到端：天雷无妄二爻动 -> 天泽履（寅化卯，进神）
+        h = HexagramResult(generate_six_lines([7, 6, 8, 7, 7, 7]))
+        assert h.original_hex.name == "天雷无妄"
+        assert h.transformed_hex.name == "天泽履"
+        te = TimeEngine(datetime(2026, 9, 27, 14, 0, 0))
+        asm = NaJiaEngine(h, day_stem=te.day_stem).assemble_full_hexagram()
+        evs = EvidenceEngine.extract_evidences(te.diagnose_lines(asm))
+        assert any(e["phenomenon"] == "动化进神" for e in evs)
+        assert evs and all(e.get("source_type") in ("原文", "义理转述") for e in evs)
