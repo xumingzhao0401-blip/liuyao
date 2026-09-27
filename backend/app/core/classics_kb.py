@@ -45,7 +45,8 @@ class EvidenceEngine:
                     "book_title": "增删卜易",
                     "chapter": "卷一·月破章",
                     "original_text": "用神临月破，如枯木逢霜，万物凋零，虽有日辰生扶，亦难发力。必待出月、逢合之日，方得补救。",
-                    "explanation": "爻逢日辰冲克为破。破主事体动摇、当面受挫。若是静卦，则为被动破损，需待后时填实逢合转机。"
+                    "explanation": "爻逢日辰冲克为破。破主事体动摇、当面受挫。若是静卦，则为被动破损，需待后时填实逢合转机。",
+                    "source_type": "义理转述"
                 })
 
             # 2. 空（旬空）
@@ -56,7 +57,8 @@ class EvidenceEngine:
                     "book_title": "卜筮正宗",
                     "chapter": "辟诸书动变章",
                     "original_text": "空非真空，逢冲则实；静空遇冲为起，动空遇冲为实。出空逢值，方定吉凶。",
-                    "explanation": "旬空代表事情目前悬空、当事人底气不足或资金尚未落实。待出空或日辰冲实之时，虚妄坐实。"
+                    "explanation": "旬空代表事情目前悬空、当事人底气不足或资金尚未落实。待出空或日辰冲实之时，虚妄坐实。",
+                    "source_type": "义理转述"
                 })
 
             # 3. 动变回头克
@@ -67,7 +69,8 @@ class EvidenceEngine:
                     "book_title": "黄金策",
                     "chapter": "总断千金赋",
                     "original_text": "生扶虽美，回头克处有凶危；化绝化克，谋事难期成就。",
-                    "explanation": "自身主动生发动作，结果变爻反克自身本位，代表自找麻烦或后续条件恶化。"
+                    "explanation": "自身主动生发动作，结果变爻反克自身本位，代表自找麻烦或后续条件恶化。",
+                    "source_type": "义理转述"
                 })
 
             # 4. 动变回头生
@@ -78,7 +81,8 @@ class EvidenceEngine:
                     "book_title": "增删卜易",
                     "chapter": "生克章",
                     "original_text": "动化回头生者，如春苗得雨，渐入佳境。事起初虽艰，终获厚报。",
-                    "explanation": "变爻哺育本爻，预示事件后劲充沛，事情能因势利导越走越顺。"
+                    "explanation": "变爻哺育本爻，预示事件后劲充沛，事情能因势利导越走越顺。",
+                    "source_type": "义理转述"
                 })
 
             # 5. 伏神
@@ -90,7 +94,56 @@ class EvidenceEngine:
                     "book_title": "火珠林",
                     "chapter": "伏神论",
                     "original_text": "伏居飞下，须看飞神生克。飞来克伏难成器，伏去克飞亦有灾；生扶比和，终当出露。",
-                    "explanation": "伏神代表潜藏在暗处未摆上台面的人事与资金，需查飞神是否能容之、引拔之。"
+                    "explanation": "伏神代表潜藏在暗处未摆上台面的人事与资金，需查飞神是否能容之、引拔之。",
+                    "source_type": "义理转述"
+                })
+
+            # 5b. 动化进神
+            if "进神" in change:
+                evidences.append({
+                    "target": f"{pos_name} ({rel})",
+                    "phenomenon": "动化进神",
+                    "book_title": "增删卜易",
+                    "chapter": "进神退神章",
+                    "original_text": "化进神者，如春苗渐长，吉。事态层层拓展，后劲日增。",
+                    "explanation": "动爻化出同五行之进一位地支，代表事情向前滚动、越做越大，宜乘势推进。",
+                    "source_type": "义理转述"
+                })
+
+            # 5c. 动化退神
+            if "退神" in change:
+                evidences.append({
+                    "target": f"{pos_name} ({rel})",
+                    "phenomenon": "动化退神",
+                    "book_title": "增删卜易",
+                    "chapter": "进神退神章",
+                    "original_text": "化退神者，如秋叶渐落，凶。诸事后劲减退，不可贪多。",
+                    "explanation": "动爻化出同五行之退一位地支，代表事情后劲不足、逐渐收敛，宜见好就收。",
+                    "source_type": "义理转述"
+                })
+
+            # 5d. 暗动（静爻得月令生扶逢日冲）
+            if "暗动" in tags:
+                evidences.append({
+                    "target": f"{pos_name} ({rel})",
+                    "phenomenon": "静爻暗动",
+                    "book_title": "增删卜易",
+                    "chapter": "日辰章",
+                    "original_text": "静爻得日辰冲之为暗动，吉凶同动爻之断。旺相者锦上添花，休囚者暗中受损。",
+                    "explanation": "静爻被日辰冲而月令有气，暗中已动。表面平静之下已有力量在运作，需按动爻论吉凶。",
+                    "source_type": "义理转述"
+                })
+
+            # 5e. 动爻逢日冲（动而逢冲，事变极速）
+            if "动爻逢日冲" in tags:
+                evidences.append({
+                    "target": f"{pos_name} ({rel})",
+                    "phenomenon": "动爻逢冲",
+                    "book_title": "卜筮正宗",
+                    "chapter": "动变章",
+                    "original_text": "动爻逢日辰冲并者，事有反复；冲中带合者，先难后易。动而逢冲，其应极速。",
+                    "explanation": "动爻再逢日辰冲，如快马加鞭，事情变化来得极快；但冲亦主动荡，需防反复。",
+                    "source_type": "义理转述"
                 })
 
         # 6. 静卦总纲（六爻皆无动爻）
@@ -101,7 +154,8 @@ class EvidenceEngine:
                 "book_title": "增删卜易",
                 "chapter": "静卦章",
                 "original_text": "静卦无动变，专主世应生克与提纲旺衰。世克应事多阻隔，应生世易于成就。最忌日辰冲动暗起波澜。",
-                "explanation": "静卦代表当下大局相对稳定，事情发展没有激烈的突发变故，重点看所测之'用神'与'世爻'得不得日令月建之生助。"
+                "explanation": "静卦代表当下大局相对稳定，事情发展没有激烈的突发变故，重点看所测之'用神'与'世爻'得不得日令月建之生助。",
+                "source_type": "义理转述"
             })
 
         return evidences
