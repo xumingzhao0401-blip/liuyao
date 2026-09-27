@@ -415,7 +415,7 @@ class TestClassicsReader:
 class TestVersion:
     def test_version_module(self):
         from app.version import VERSION, BUILD_DATE
-        assert VERSION == "1.5.0"
+        assert VERSION == "1.5.1"
         assert BUILD_DATE == "2026-09-27"
 
     def test_version_footer_in_index(self):
@@ -423,7 +423,7 @@ class TestVersion:
                                  "frontend", "index.html"), encoding="utf-8").read()
         assert 'id="app-version"' in html
         assert "/api/version" in html
-        assert "v1.5.0" in html
+        assert "v1.5.1" in html
 
 
 # ================= 典籍收录诚实标注 =================
@@ -485,3 +485,15 @@ class TestServerTime:
         assert "/api/time" in js
         assert "initServerClock" in js
         assert "classicsStatusBadge" in js
+
+
+# ================= 起卦时空输入框动态 placeholder =================
+class TestDatetimePlaceholder:
+    def test_placeholder_logic_present(self):
+        js = open(os.path.join(os.path.dirname(__file__), "..", "..",
+                               "frontend", "js", "app.js"), encoding="utf-8").read()
+        assert "formatServerDateTime" in js
+        assert 'getElementById("input-datetime")' in js
+        html = open(os.path.join(os.path.dirname(__file__), "..", "..",
+                                 "frontend", "index.html"), encoding="utf-8").read()
+        assert 'id="input-datetime"' in html

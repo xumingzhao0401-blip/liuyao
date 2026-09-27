@@ -63,6 +63,29 @@ function renderServerClock() {
         hour24 = now.getHours();
     }
     el.textContent = `\u{1F550} ${label} ${dateStr} \u00B7 ${shichenZhi(hour24)}时`;
+    // 起卦时空输入框：placeholder 实时显示留空时将采用的服务器时间
+    const dtInput = document.getElementById("input-datetime");
+    if (dtInput && !dtInput.value) {
+        dtInput.placeholder = formatServerDateTime(now);
+    }
+}
+
+function formatServerDateTime(d) {
+    const tzOpt = g_clockTZ ? { timeZone: g_clockTZ } : {};
+    try {
+        const parts = new Intl.DateTimeFormat("en-CA", Object.assign({
+            year: "numeric", month: "2-digit", day: "2-digit",
+            hour: "2-digit", minute: "2-digit", second: "2-digit",
+            hour12: false,
+        }, tzOpt)).formatToParts(d);
+        const p = {};
+        parts.forEach(x => { p[x.type] = x.value; });
+        let hh = p.hour === "24" ? "00" : p.hour;
+        return `${p.year}-${p.month}-${p.day} ${hh}:${p.minute}:${p.second}`;
+    } catch (e) {
+        const pad = n => String(n).padStart(2, "0");
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
 }
 
 function initServerClock() {
