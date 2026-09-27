@@ -20,7 +20,7 @@
 * **4K 原生矢量 DOM 悬牌**：利用屏幕投影向量（Screen Projection）在三维空间实时同步 HTML5 标签，彻底根除 3D 贴图模糊与边缘走样。
 * **零延迟轻量级碰撞（BVH/HitBox Proxy）**：以极低算力实现精准拾取，保持原生 60FPS 流畅度，点击任意构件即刻滑出【爻象玄机 · 二级研读抽屉】。
 
-### 2. 📜 严谨学理 · 十大典籍引证引擎
+### 2. 📜 严谨学理 · 典籍引证引擎
 * **全卦象自动考据**：内置《增删卜易》、《卜筮正宗》、《黄金策》、《火珠林》实占规则链。
 * **动静皆备**：无论动爻变克（回头生、回头克），还是静卦旺衰、逢空（旬空出空）、逢破（日破月破）、伏神隐现，系统皆可自动提取古典原典章节与大白话断语。
 
@@ -45,28 +45,6 @@ liuyao_system/
 │   └── index.html         # 响应式主视图与矢量投影字牌容器
 ├── docker-compose.yml     # 标准化单机编排配置（含健康检查与持久挂载）
 └── Dockerfile             # 极简轻量级 Python 运行时容器
-
----
-
-## 🛠️ 技术栈架构
-
-```text
-liuyao_system/
-├── backend/
-│   └── app/
-│       ├── core/          # 六爻象数核心算法、排盘、时空纳甲与典籍考据知识库
-│       └── main.py        # FastAPI 高性能异步服务与接口路由
-├── frontend/
-│   ├── css/style.css      # 新中式数字展陈样式、磨砂玻璃 HUD 与二级抽屉动效
-│   ├── js/scene3d.js      # Three.js 3D 金镶玉月梁、管状浑天仪与碰撞拾取引擎
-│   ├── js/app.js          # 交互编排、排盘状态机与大模型流式调用
-│   └── index.html         # 响应式主视图与矢量投影字牌容器
-├── docker-compose.yml     # 标准化单机编排配置（含健康检查与持久挂载）
-└── Dockerfile             # 极简轻量级 Python 运行时容器
-
-```
-
----
 
 ## 🚀 极速部署指引（适用于任何新机器）
 
@@ -140,8 +118,4 @@ curl -s -X POST [http://127.0.0.1:8000/api/divine](http://127.0.0.1:8000/api/div
 
 ## 📄 开源许可证
 
-本项目基于 [MIT License](https://www.google.com/search?q=LICENSE&utm_source=gemini) 开源。
-
-```
-
-```
+本项目基于 [MIT License](./LICENSE) 开源。
