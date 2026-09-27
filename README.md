@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](https://opensource.org/licenses/MIT)
 [![Docker Support](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://www.docker.com/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
-[![Three.js](https://img.shields.io/badge/Frontend-Three.js_r128-black.svg)](https://threejs.org/)
+[![Three.js](https://img.shields.io/badge/Frontend-Three.js_r160-black.svg)](https://threejs.org/)
 [![Visual Style](https://img.shields.io/badge/Aesthetic-Neo--Chinese_Tekton-red.svg)](#-设计美学与营造法式)
 
 > 融汇宋代《营造法式》大木作精髓与现代 WebGL 物理渲染（PBR）的先锋数字国风六爻排盘、典籍实证与 AI 解卦系统。
