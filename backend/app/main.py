@@ -175,11 +175,14 @@ def construct_dynamic_prompt(time_info: Dict[str, Any], hex_meta: Dict[str, Any]
 @app.get("/api/time")
 async def get_server_time():
     now = datetime.now()
+    utc_offset = now.astimezone().utcoffset()
     return {
         "status": "success",
         "timestamp": now.timestamp(),
         "server_time": now.isoformat(timespec="seconds"),
         "timezone": str(now.astimezone().tzinfo),
+        # 服务器本地时区相对 UTC 的秒数（前端用它做确定性换算，不再依赖时区名解析）
+        "utc_offset": int(utc_offset.total_seconds()) if utc_offset else 0,
     }
 
 

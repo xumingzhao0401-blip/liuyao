@@ -415,7 +415,7 @@ class TestClassicsReader:
 class TestVersion:
     def test_version_module(self):
         from app.version import VERSION, BUILD_DATE
-        assert VERSION == "1.5.1"
+        assert VERSION == "1.5.2"
         assert BUILD_DATE == "2026-09-27"
 
     def test_version_footer_in_index(self):
@@ -423,7 +423,7 @@ class TestVersion:
                                  "frontend", "index.html"), encoding="utf-8").read()
         assert 'id="app-version"' in html
         assert "/api/version" in html
-        assert "v1.5.1" in html
+        assert "v1.5.2" in html
 
 
 # ================= 典籍收录诚实标注 =================
@@ -475,6 +475,10 @@ class TestServerTime:
         assert r["status"] == "success"
         assert abs(r["timestamp"] - time.time()) < 5
         assert "timezone" in r and r["timezone"]
+        # utc_offset 必须存在且为整分钟偏移（回归：前端不再解析 "CST" 这类非 IANA 时区名）
+        assert isinstance(r.get("utc_offset"), int)
+        assert abs(r["utc_offset"]) <= 14 * 3600
+        assert r["utc_offset"] % 60 == 0
 
     def test_clock_element_in_index(self):
         html = open(os.path.join(os.path.dirname(__file__), "..", "..",
@@ -497,3 +501,16 @@ class TestDatetimePlaceholder:
         html = open(os.path.join(os.path.dirname(__file__), "..", "..",
                                  "frontend", "index.html"), encoding="utf-8").read()
         assert 'id="input-datetime"' in html
+
+
+# ================= 六十四卦图谱按钮绑定 =================
+class TestHexManualBinding:
+    def test_no_inline_onclick(self):
+        html = open(os.path.join(os.path.dirname(__file__), "..", "..",
+                                 "frontend", "index.html"), encoding="utf-8").read()
+        assert 'id="btn-show-manual"' in html
+        assert "openHexagramManualModal()" not in html  # 不再用行内 onclick
+        js = open(os.path.join(os.path.dirname(__file__), "..", "..",
+                               "frontend", "js", "app.js"), encoding="utf-8").read()
+        assert 'getElementById("btn-show-manual").addEventListener("click"' in js
+        assert 'id="hex-manual-modal"' in html

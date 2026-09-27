@@ -19,14 +19,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ============ 服务器时间同步时钟 ============
-// 与后端 /api/time 对时：offset = 服务器时间 - 本地时间，每秒用 offset 渲染，每分钟重同步纠漂移。
+// 与后端 /api/time 对时：offset = 服务器时刻 - 本地时刻；显示时再叠加服务器上报的
+// utc_offset（秒），全程用 getUTC* 读取，绝不把 "CST" 这类非 IANA 时区名交给 Intl 解析
+// （实测：timeZone:"CST" 会被宽容解析为美国中部时间，导致北京时间 21:31 显示成 08:31）。
 const SHICEN_ZHI = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
-let g_clockOffsetMs = 0;
-let g_clockTZ = undefined;
+let g_clockOffsetMs = 0;        // 服务器时刻 - 本地时刻（毫秒）
+let g_clockUtcOffsetSec = 8 * 3600;  // 服务器时区相对 UTC 的秒数，默认东八区
 let g_clockSynced = false;
 
 function shichenZhi(hour24) {
     return SHICEN_ZHI[Math.floor(((hour24 % 24) + 1) / 2) % 12];
+}
+
+// 返回“按服务器时区显示”的 Date：用 getUTC* 方法读取即为服务器本地 wall time
+function serverDisplayDate() {
+    return new Date(Date.now() + g_clockOffsetMs + g_clockUtcOffsetSec * 1000);
+}
+
+function pad2(n) { return String(n).padStart(2, "0"); }
+
+function formatServerDateTime(d) {
+    return `${d.getUTCFullYear()}-${pad2(d.getUTCMonth() + 1)}-${pad2(d.getUTCDate())} ` +
+           `${pad2(d.getUTCHours())}:${pad2(d.getUTCMinutes())}:${pad2(d.getUTCSeconds())}`;
 }
 
 async function syncServerClock() {
@@ -35,7 +49,7 @@ async function syncServerClock() {
         const d = await resp.json();
         if (d && d.status === "success" && typeof d.timestamp === "number") {
             g_clockOffsetMs = d.timestamp * 1000 - Date.now();
-            g_clockTZ = d.timezone || undefined;
+            if (typeof d.utc_offset === "number") g_clockUtcOffsetSec = d.utc_offset;
             g_clockSynced = true;
         }
     } catch (e) { /* 同步失败则保持上次结果，降级为本地时间 */ }
@@ -45,46 +59,16 @@ async function syncServerClock() {
 function renderServerClock() {
     const el = document.getElementById("server-clock");
     if (!el) return;
-    const now = new Date(Date.now() + g_clockOffsetMs);
+    const d = serverDisplayDate();
     const label = g_clockSynced ? "服务器时间" : "本地时间";
-    const tzOpt = g_clockTZ ? { timeZone: g_clockTZ } : {};
-    let dateStr, hour24;
-    try {
-        dateStr = new Intl.DateTimeFormat("zh-CN", Object.assign({
-            year: "numeric", month: "2-digit", day: "2-digit",
-            hour: "2-digit", minute: "2-digit", second: "2-digit",
-            hour12: false, weekday: "short",
-        }, tzOpt)).format(now);
-        hour24 = parseInt(new Intl.DateTimeFormat("en-US", Object.assign(
-            { hour: "numeric", hour12: false }, tzOpt)).format(now), 10);
-        if (isNaN(hour24)) hour24 = now.getHours();
-    } catch (e) {
-        dateStr = now.toLocaleString("zh-CN", { hour12: false });
-        hour24 = now.getHours();
-    }
-    el.textContent = `\u{1F550} ${label} ${dateStr} \u00B7 ${shichenZhi(hour24)}时`;
+    const offH = g_clockUtcOffsetSec / 3600;
+    const offStr = "UTC" + (offH >= 0 ? "+" : "") + offH;
+    const week = "日一二三四五六"[d.getUTCDay()];
+    el.textContent = `\u{1F550} ${label}(${offStr}) ${formatServerDateTime(d)} 周${week} \u00B7 ${shichenZhi(d.getUTCHours())}时`;
     // 起卦时空输入框：placeholder 实时显示留空时将采用的服务器时间
     const dtInput = document.getElementById("input-datetime");
     if (dtInput && !dtInput.value) {
-        dtInput.placeholder = formatServerDateTime(now);
-    }
-}
-
-function formatServerDateTime(d) {
-    const tzOpt = g_clockTZ ? { timeZone: g_clockTZ } : {};
-    try {
-        const parts = new Intl.DateTimeFormat("en-CA", Object.assign({
-            year: "numeric", month: "2-digit", day: "2-digit",
-            hour: "2-digit", minute: "2-digit", second: "2-digit",
-            hour12: false,
-        }, tzOpt)).formatToParts(d);
-        const p = {};
-        parts.forEach(x => { p[x.type] = x.value; });
-        let hh = p.hour === "24" ? "00" : p.hour;
-        return `${p.year}-${p.month}-${p.day} ${hh}:${p.minute}:${p.second}`;
-    } catch (e) {
-        const pad = n => String(n).padStart(2, "0");
-        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+        dtInput.placeholder = formatServerDateTime(d);
     }
 }
 
@@ -136,6 +120,14 @@ function initEvents() {
     document.getElementById("btn-open-layman").addEventListener("click", openLaymanGuideModal);
     document.getElementById("layman-modal-close").addEventListener("click", () => closeModal("layman-modal"));
     document.getElementById("btn-show-glossary").addEventListener("click", openGlossaryModal);
+    document.getElementById("btn-show-manual").addEventListener("click", () => {
+        try {
+            window.openHexagramManualModal();
+        } catch (e) {
+            console.error(e);
+            alert("图谱打开失败：" + (e && e.message));
+        }
+    });
     document.getElementById("glossary-modal-close").addEventListener("click", () => closeModal("glossary-modal"));
 
     // 模型 API 设置
@@ -1008,7 +1000,10 @@ let g_currentFilterPalace = "ALL";
 
 window.openHexagramManualModal = async function() {
     const modal = document.getElementById("hex-manual-modal");
-    if (!modal) return;
+    if (!modal) {
+        alert("图谱弹窗组件缺失，请强制刷新页面后重试");
+        return;
+    }
     modal.style.display = "flex";
 
     if (g_hexManualData.length === 0) {
@@ -1020,9 +1015,16 @@ window.openHexagramManualModal = async function() {
             }
         } catch (e) {
             console.error("加载图谱数据失败", e);
+            const cc = document.getElementById("manual-cards-container");
+            if (cc) cc.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #a00; padding: 40px;">图谱数据加载失败，请检查网络后重试</div>';
         }
     }
-    window.renderHexManualCards();
+    try {
+        window.renderHexManualCards();
+    } catch (e) {
+        console.error("渲染图谱卡片失败", e);
+        alert("图谱渲染失败：" + (e && e.message));
+    }
 };
 
 function renderMiniHexBars(code) {
