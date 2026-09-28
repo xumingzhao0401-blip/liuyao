@@ -16,7 +16,7 @@ services:
       - PYTHONUNBUFFERED=1
       - TZ=Asia/Shanghai
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8000/ || exit 1"]
+      test: ["CMD-SHELL", "python3 -c 'import urllib.request; urllib.request.urlopen(\"http://localhost:8000/\", timeout=5)' || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 3
